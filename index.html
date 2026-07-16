@@ -38,6 +38,130 @@
     background-attachment: fixed;
     overflow-x: hidden;
   }
+  body.locked { overflow: hidden; }
+
+  /* ---------- sealed envelope intro ---------- */
+  .env-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.2rem;
+    background: linear-gradient(160deg, #f6edfb, #fbe4ef 45%, #ece0f9);
+    transition: opacity 1.1s ease;
+  }
+  .env-overlay.done {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .env-hint {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(1.9rem, 6vw, 2.6rem);
+    color: var(--deep-purple);
+  }
+  .envelope {
+    position: relative;
+    width: min(78vw, 340px);
+    aspect-ratio: 340 / 225;
+    cursor: pointer;
+    perspective: 900px;
+    filter: drop-shadow(0 18px 34px rgba(124, 94, 158, .28));
+    -webkit-tap-highlight-color: transparent;
+  }
+  .envelope:focus-visible { outline: 3px dashed var(--soft-purple); outline-offset: 8px; }
+  .env-back {
+    position: absolute;
+    inset: 0;
+    background: #d9c2ee;
+    border-radius: 10px;
+    z-index: 1;
+  }
+  .env-letter {
+    position: absolute;
+    left: 7%;
+    top: 8%;
+    width: 86%;
+    height: 84%;
+    background: var(--paper);
+    border-radius: 6px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.5rem;
+    color: var(--deep-purple);
+    box-shadow: 0 2px 10px rgba(124, 94, 158, .18);
+    transition: transform .9s cubic-bezier(.22, .8, .35, 1) .5s;
+  }
+  .env-front {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: linear-gradient(160deg, #ecd9f8, #f7d6e8);
+    border-radius: 10px;
+    clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+  }
+  .env-flap {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 62%;
+    z-index: 4;
+    background: linear-gradient(200deg, #dfc4f2, #f2cade);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    border-radius: 10px 10px 0 0;
+    transform-origin: top center;
+    transition: transform .7s cubic-bezier(.6, .05, .3, 1);
+    backface-visibility: hidden;
+  }
+  .wax-seal {
+    position: absolute;
+    left: 50%;
+    top: 54%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    z-index: 5;
+    background: radial-gradient(circle at 35% 32%, #cf8ec4, #a4589b 62%, #8d4487);
+    box-shadow: 0 4px 12px rgba(141, 68, 135, .45), inset 0 0 0 5px rgba(255, 255, 255, .14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: #fdeef8;
+    transition: transform .5s ease, opacity .5s ease;
+    animation: sealGlow 2.6s ease-in-out infinite;
+  }
+  @keyframes sealGlow {
+    0%, 100% { box-shadow: 0 4px 12px rgba(141, 68, 135, .45), 0 0 0 0 rgba(207, 142, 196, .55); }
+    50%      { box-shadow: 0 4px 12px rgba(141, 68, 135, .45), 0 0 0 16px rgba(207, 142, 196, 0); }
+  }
+  .env-tap {
+    font-family: 'Quicksand', sans-serif;
+    font-size: .8rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--soft-purple);
+  }
+  .envelope.open .env-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+  }
+  .envelope.open .wax-seal {
+    transform: translate(-50%, -50%) scale(.35);
+    opacity: 0;
+    animation: none;
+  }
+  .envelope.open .env-letter {
+    transform: translateY(-46%) scale(1.06);
+  }
+  .envelope.open { cursor: default; }
+  noscript.env-noscript { display: none; }
 
   /* ---------- floating hearts & sparkles ---------- */
   .floaties {
@@ -73,7 +197,7 @@
     padding: 2rem 1.5rem;
     z-index: 1;
   }
-  .hero .envelope {
+  .hero .envelope-emoji {
     font-size: 3.4rem;
     animation: bob 3.4s ease-in-out infinite;
     filter: drop-shadow(0 8px 18px rgba(157, 127, 194, .35));
@@ -165,6 +289,12 @@
     margin-bottom: 2.4rem;
     text-align: center;
   }
+  .stanza .her-name {
+    font-family: 'Great Vibes', cursive;
+    font-style: normal;
+    font-size: 1.6em;
+    color: var(--deep-purple);
+  }
   .divider {
     text-align: center;
     color: var(--rose);
@@ -172,6 +302,17 @@
     letter-spacing: .8em;
     margin: 0 0 2.4rem;
     user-select: none;
+  }
+
+  /* handwriting reveal — each character inks in as she scrolls */
+  .write .ink {
+    opacity: 0;
+    filter: blur(4px);
+    transition: opacity .45s ease, filter .8s ease;
+  }
+  .write.written .ink {
+    opacity: 1;
+    filter: blur(0);
   }
 
   /* reveal-on-scroll */
@@ -229,22 +370,40 @@
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .floaty, .hero .envelope, .scroll-hint .arrow, .closing .heart { animation: none; }
+    .floaty, .hero .envelope-emoji, .scroll-hint .arrow, .closing .heart, .wax-seal { animation: none; }
     .floaty { display: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
+    .write .ink { transition: none; }
+    .env-overlay, .env-flap, .env-letter, .wax-seal { transition: none; }
   }
 </style>
 </head>
-<body>
+<body class="locked">
+
+  <!-- sealed envelope — the page begins closed, tap the seal to open -->
+  <div class="env-overlay" id="envOverlay">
+    <p class="env-hint">a letter for you…</p>
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the letter">
+      <div class="env-back"></div>
+      <div class="env-letter">For Rawan ♡</div>
+      <div class="env-front"></div>
+      <div class="env-flap"></div>
+      <div class="wax-seal" aria-hidden="true">R</div>
+    </div>
+    <p class="env-tap">tap the seal to open</p>
+  </div>
+  <noscript>
+    <style>.env-overlay { display: none; } body.locked { overflow: auto; }</style>
+  </noscript>
 
   <div class="floaties" aria-hidden="true"></div>
 
   <header class="hero">
-    <div class="envelope">💌</div>
+    <div class="envelope-emoji">💌</div>
     <h1>For Rawan</h1>
     <p class="subtitle">a little letter, just for you</p>
     <a class="scroll-hint" href="#letter">
-      <span>open me</span>
+      <span>keep going</span>
       <span class="arrow">↓</span>
     </a>
   </header>
@@ -252,32 +411,36 @@
   <main>
     <section class="letter-wrap" id="letter">
       <article class="letter">
-        <p class="salutation reveal">My dearest Rawan,</p>
+        <p class="salutation write">My dearest Rawan,</p>
 
-        <!-- ✍️ Poem goes here — example text for now, real poem to be added later -->
-        <p class="stanza reveal">
-          In quiet mornings, soft and slow,<br>
-          your name is the first thing I know.<br>
-          Like lavender light on a windowsill,<br>
-          you steady my heart, and always will.
+        <p class="stanza write">
+          Your name echoes through my mind,<br>
+          for all my thoughts belong to you.
         </p>
 
         <p class="divider reveal" aria-hidden="true">✿ ✿ ✿</p>
 
-        <p class="stanza reveal">
-          If I could paint the way you laugh,<br>
-          I'd need the sky, and then its half.<br>
-          Every shade of pink and mauve<br>
-          still wouldn't hold the way I love.
+        <p class="stanza write">
+          The name of a princess, a queen —<br>
+          and most importantly, my wife.
         </p>
 
         <p class="divider reveal" aria-hidden="true">✿ ✿ ✿</p>
 
-        <p class="stanza reveal">
-          So here's a page, a tiny start,<br>
-          a folded corner of my heart.<br>
-          Wherever you go, whatever you do —<br>
-          it beats, quite simply, because of you.
+        <p class="stanza write">
+          Your name is music to my ears,<br>
+          it&rsquo;s all I ever want to hear.<br>
+          It brings peace to my heart,<br>
+          just knowing you are mine.
+        </p>
+
+        <p class="divider reveal" aria-hidden="true">✿ ✿ ✿</p>
+
+        <p class="stanza write">
+          A name I never heard before<br>
+          is now the most important.<br>
+          The only name I&rsquo;ll ever need —<br>
+          <span class="her-name">Rawan.</span>
         </p>
       </article>
     </section>
@@ -290,9 +453,33 @@
   </main>
 
 <script>
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // sealed envelope intro
+  (function () {
+    var overlay = document.getElementById('envOverlay');
+    var envelope = document.getElementById('envelope');
+    var opened = false;
+    function openLetter() {
+      if (opened) return;
+      opened = true;
+      envelope.classList.add('open');
+      var delay = reducedMotion ? 0 : 1500;
+      setTimeout(function () {
+        overlay.classList.add('done');
+        document.body.classList.remove('locked');
+        setTimeout(function () { overlay.remove(); }, reducedMotion ? 0 : 1100);
+      }, delay);
+    }
+    envelope.addEventListener('click', openLetter);
+    envelope.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLetter(); }
+    });
+  })();
+
   // gentle floating hearts & sparkles
   (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (reducedMotion) return;
     var symbols = ['💜', '💗', '🩷', '✨', '🌸', '💕'];
     var container = document.querySelector('.floaties');
     for (var i = 0; i < 18; i++) {
@@ -307,22 +494,54 @@
     }
   })();
 
-  // reveal stanzas as they scroll into view
+  // handwriting effect — wrap every character so it can ink in one by one
   (function () {
-    var items = document.querySelectorAll('.reveal');
+    var PACE = 0.045; // seconds per character
+    document.querySelectorAll('.write').forEach(function (block) {
+      var idx = 0;
+      (function walk(node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+          if (child.nodeType === Node.TEXT_NODE) {
+            var frag = document.createDocumentFragment();
+            child.textContent.split('').forEach(function (ch) {
+              var span = document.createElement('span');
+              span.className = 'ink';
+              span.textContent = ch;
+              if (!reducedMotion && ch.trim()) {
+                span.style.transitionDelay = (idx++ * PACE) + 's';
+              }
+              frag.appendChild(span);
+            });
+            child.replaceWith(frag);
+          } else if (child.tagName === 'BR') {
+            idx += 5; // a small pause at each line break, like lifting the pen
+          } else {
+            walk(child);
+          }
+        });
+      })(block);
+    });
+  })();
+
+  // reveal stanzas (handwriting) and other elements as they scroll into view
+  (function () {
+    var writes = document.querySelectorAll('.write');
+    var reveals = document.querySelectorAll('.reveal');
     if (!('IntersectionObserver' in window)) {
-      items.forEach(function (el) { el.classList.add('visible'); });
+      writes.forEach(function (el) { el.classList.add('written'); });
+      reveals.forEach(function (el) { el.classList.add('visible'); });
       return;
     }
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          entry.target.classList.add(entry.target.classList.contains('write') ? 'written' : 'visible');
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.25 });
-    items.forEach(function (el) { observer.observe(el); });
+    writes.forEach(function (el) { observer.observe(el); });
+    reveals.forEach(function (el) { observer.observe(el); });
   })();
 </script>
 

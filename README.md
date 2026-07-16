@@ -19,7 +19,6 @@ To turn it on (one time only):
 
 ## Updating the page later
 
-- **The poem**: edit the three `.stanza` blocks in `index.html` (they're marked
-  with a `✍️ Poem goes here` comment) and replace the example text.
+- **The poem**: edit the `.stanza` blocks in `index.html`.
 
 Every push to `main` automatically republishes the page — still free.
