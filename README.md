@@ -21,7 +21,5 @@ To turn it on (one time only):
 
 - **The poem**: edit the three `.stanza` blocks in `index.html` (they're marked
   with a `✍️ Poem goes here` comment) and replace the example text.
-- **Photos**: there's a placeholder section marked `📸 Photo gallery` in
-  `index.html`, ready to swap in real photos later.
 
 Every push to `main` automatically republishes the page — still free.
