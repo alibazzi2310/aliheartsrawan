@@ -163,14 +163,17 @@ body.locked { overflow: hidden; }
 }
 
 /* The R on the seals is the Great Vibes outline drawn as SVG, with the
-   viewBox set to the glyph's exact ink bounds. Centring the image therefore
-   centres the visible letter — as live text the cursive R lands off-centre,
-   because CSS centres the character box and this glyph's ink sits high and
-   left inside it. */
+   viewBox set to the glyph's exact ink bounds. Centring it therefore centres
+   the visible letter — as live text the cursive R lands off-centre, because
+   CSS centres the character box and this glyph's ink sits high and left
+   inside it. The SVG is inlined in the markup rather than fetched, so the
+   seal is never briefly empty on a slow connection, and the aspect ratio is
+   stated outright so it can't collapse if height:auto is mis-resolved. */
 .seal-mark {
   display: block;
   width: 55%;
   height: auto;
+  aspect-ratio: 1098 / 832;
 }
 .card-no {
   font-family: 'Quicksand', sans-serif;
