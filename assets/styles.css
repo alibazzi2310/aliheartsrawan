@@ -1,0 +1,567 @@
+/* ═══════════════════════════════════════════
+   For Rawan — shared styles
+   Used by the keepsake box (index.html) and
+   every letter inside letters/.
+   ═══════════════════════════════════════════ */
+
+:root {
+  --lavender: #e6dcf7;
+  --blush: #fbe4ef;
+  --rose: #f4c6dd;
+  --lilac: #cdb4e8;
+  --deep-purple: #7c5e9e;
+  --soft-purple: #9d7fc2;
+  --muted: #b39ccc;
+  --ink: #6b5382;
+  --paper: #fffafd;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  background: linear-gradient(160deg,
+    #f6edfb 0%,
+    #fbe4ef 25%,
+    #ece0f9 50%,
+    #fde8f2 75%,
+    #efe3fb 100%);
+  background-attachment: fixed;
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+body.locked { overflow: hidden; }
+
+/* ── floating hearts & sparkles ─────────── */
+.floaties {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.floaty {
+  position: absolute;
+  bottom: -8vh;
+  font-size: 1.1rem;
+  opacity: 0;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: .55; }
+  90%  { opacity: .35; }
+  100% { transform: translateY(-115vh) rotate(24deg); opacity: 0; }
+}
+
+/* ── heart trail (follows her finger) ───── */
+.trail-heart {
+  position: fixed;
+  z-index: 15;
+  pointer-events: none;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  animation: trailFade 1.15s ease-out forwards;
+}
+@keyframes trailFade {
+  0%   { opacity: .9; transform: translate(-50%, -50%) scale(.55) rotate(0deg); }
+  100% { opacity: 0;  transform: translate(-50%, -175%) scale(1.15) rotate(14deg); }
+}
+
+/* ── scroll reveal ──────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1.1s ease, transform 1.1s cubic-bezier(.22, .8, .35, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   THE KEEPSAKE BOX  (index.html)
+   ═══════════════════════════════════════════ */
+
+.box {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 12vh, 7rem) 1.25rem 4rem;
+  text-align: center;
+}
+.greeting {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(.72rem, 2.2vw, .82rem);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+  margin-bottom: 1.1rem;
+}
+.box-title {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 5rem);
+  line-height: 1.1;
+  background: linear-gradient(120deg, var(--deep-purple), #d476ab, var(--soft-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.box-sub {
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
+  font-style: italic;
+  color: var(--soft-purple);
+  margin-top: .5rem;
+}
+
+/* the shelf of letters */
+.shelf {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: clamp(2.5rem, 7vh, 3.5rem);
+}
+@media (min-width: 640px) {
+  .shelf { grid-template-columns: 1fr 1fr; }
+}
+
+.letter-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .55rem;
+  padding: 2.4rem 1.5rem;
+  background: var(--paper);
+  border: 1px solid rgba(205, 180, 232, .55);
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 14px 34px rgba(124, 94, 158, .14);
+  transition: transform .5s cubic-bezier(.22, .8, .35, 1), box-shadow .5s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.letter-card:hover,
+.letter-card:focus-visible {
+  transform: translateY(-7px);
+  box-shadow: 0 24px 48px rgba(124, 94, 158, .22);
+  outline: none;
+}
+.card-seal {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.45rem;
+  color: #fdeef8;
+  background: radial-gradient(circle at 35% 32%, #cf8ec4, #a4589b 62%, #8d4487);
+  box-shadow: 0 4px 12px rgba(141, 68, 135, .38), inset 0 0 0 4px rgba(255, 255, 255, .14);
+  margin-bottom: .35rem;
+}
+.card-no {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+}
+.card-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.9rem, 6vw, 2.3rem);
+  color: var(--deep-purple);
+  line-height: 1.2;
+}
+.card-date {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .72rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* the empty spot waiting for the next letter */
+.card-soon {
+  justify-content: center;
+  background: rgba(255, 250, 253, .5);
+  border-style: dashed;
+  box-shadow: none;
+  font-style: italic;
+  color: var(--soft-purple);
+  font-size: 1.1rem;
+  min-height: 170px;
+}
+.card-soon .sprig {
+  font-size: 1.3rem;
+  opacity: .75;
+}
+
+.box-foot {
+  margin-top: clamp(2.5rem, 7vh, 3.5rem);
+  font-family: 'Quicksand', sans-serif;
+  font-size: .76rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+}
+
+/* add-to-home-screen tip */
+.tip {
+  position: relative;
+  z-index: 1;
+  max-width: 460px;
+  margin: 1.75rem auto 0;
+  padding: .9rem 2.4rem .9rem 1.2rem;
+  background: rgba(255, 250, 253, .72);
+  border: 1px dashed var(--lilac);
+  border-radius: 16px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .82rem;
+  line-height: 1.6;
+  color: var(--soft-purple);
+}
+.tip[hidden] { display: none; }
+.tip .tip-close {
+  position: absolute;
+  top: .35rem;
+  right: .55rem;
+  border: 0;
+  background: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--lilac);
+  cursor: pointer;
+  padding: .25rem;
+}
+.tip .tip-close:hover { color: var(--soft-purple); }
+
+/* ═══════════════════════════════════════════
+   A LETTER  (letters/*.html)
+   ═══════════════════════════════════════════ */
+
+/* ── sealed envelope intro ──────────────── */
+.env-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2rem;
+  background: linear-gradient(160deg, #f6edfb, #fbe4ef 45%, #ece0f9);
+  transition: opacity 1.1s ease;
+}
+.env-overlay.done {
+  opacity: 0;
+  pointer-events: none;
+}
+.env-hint {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.9rem, 6vw, 2.6rem);
+  color: var(--deep-purple);
+}
+.envelope {
+  position: relative;
+  width: min(78vw, 340px);
+  aspect-ratio: 340 / 225;
+  cursor: pointer;
+  perspective: 900px;
+  filter: drop-shadow(0 18px 34px rgba(124, 94, 158, .28));
+  -webkit-tap-highlight-color: transparent;
+}
+.envelope:focus-visible { outline: 3px dashed var(--soft-purple); outline-offset: 8px; }
+.env-back {
+  position: absolute;
+  inset: 0;
+  background: #d9c2ee;
+  border-radius: 10px;
+  z-index: 1;
+}
+.env-letter {
+  position: absolute;
+  left: 7%;
+  top: 8%;
+  width: 86%;
+  height: 84%;
+  background: var(--paper);
+  border-radius: 6px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.5rem;
+  color: var(--deep-purple);
+  box-shadow: 0 2px 10px rgba(124, 94, 158, .18);
+  transition: transform .9s cubic-bezier(.22, .8, .35, 1) .5s;
+}
+.env-front {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(160deg, #ecd9f8, #f7d6e8);
+  border-radius: 10px;
+  clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+}
+.env-flap {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 62%;
+  z-index: 4;
+  background: linear-gradient(200deg, #dfc4f2, #f2cade);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 10px 10px 0 0;
+  transform-origin: top center;
+  transition: transform .7s cubic-bezier(.6, .05, .3, 1);
+  backface-visibility: hidden;
+}
+.wax-seal {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  z-index: 5;
+  background: radial-gradient(circle at 35% 32%, #cf8ec4, #a4589b 62%, #8d4487);
+  box-shadow: 0 4px 12px rgba(141, 68, 135, .45), inset 0 0 0 5px rgba(255, 255, 255, .14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: #fdeef8;
+  transition: transform .5s ease, opacity .5s ease;
+  animation: sealGlow 2.6s ease-in-out infinite;
+}
+@keyframes sealGlow {
+  0%, 100% { box-shadow: 0 4px 12px rgba(141, 68, 135, .45), 0 0 0 0 rgba(207, 142, 196, .55); }
+  50%      { box-shadow: 0 4px 12px rgba(141, 68, 135, .45), 0 0 0 16px rgba(207, 142, 196, 0); }
+}
+.env-tap {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .8rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+}
+.envelope.open .env-flap { transform: rotateX(180deg); z-index: 1; }
+.envelope.open .wax-seal { transform: translate(-50%, -50%) scale(.35); opacity: 0; animation: none; }
+.envelope.open .env-letter { transform: translateY(-46%) scale(1.06); }
+.envelope.open { cursor: default; }
+
+/* ── letter hero ────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  z-index: 1;
+}
+.hero .envelope-emoji {
+  font-size: 3.4rem;
+  animation: bob 3.4s ease-in-out infinite;
+  filter: drop-shadow(0 8px 18px rgba(157, 127, 194, .35));
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+.hero .letter-no {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .78rem;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+  margin-top: 1.4rem;
+}
+.hero h1 {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: clamp(3.2rem, 9vw, 5.6rem);
+  margin-top: .5rem;
+  background: linear-gradient(120deg, var(--deep-purple), #d476ab, var(--soft-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero p.subtitle {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(.85rem, 2.4vw, 1rem);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+  margin-top: .8rem;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Quicksand', sans-serif;
+  font-size: .8rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+  opacity: .8;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+}
+.scroll-hint .arrow {
+  font-size: 1.2rem;
+  animation: nudge 2s ease-in-out infinite;
+}
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); opacity: .5; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+/* ── the letter itself ──────────────────── */
+.letter-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 4rem 1.25rem 6rem;
+}
+.letter {
+  position: relative;
+  background: var(--paper);
+  border-radius: 22px;
+  padding: clamp(2.2rem, 6vw, 3.8rem);
+  border: 1px solid rgba(205, 180, 232, .5);
+  box-shadow:
+    0 24px 60px rgba(124, 94, 158, .18),
+    0 3px 10px rgba(124, 94, 158, .08);
+}
+.letter::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed rgba(205, 180, 232, .7);
+  border-radius: 14px;
+  pointer-events: none;
+}
+.letter .salutation {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 6vw, 2.7rem);
+  color: var(--deep-purple);
+  margin-bottom: 2.2rem;
+}
+.stanza {
+  font-size: clamp(1.15rem, 3.2vw, 1.4rem);
+  line-height: 2;
+  font-style: italic;
+  margin-bottom: 2.4rem;
+  text-align: center;
+}
+.stanza .her-name {
+  font-family: 'Great Vibes', cursive;
+  font-style: normal;
+  font-size: 1.6em;
+  color: var(--deep-purple);
+}
+.divider {
+  text-align: center;
+  color: var(--rose);
+  font-size: 1rem;
+  letter-spacing: .8em;
+  margin: 0 0 2.4rem;
+  user-select: none;
+}
+
+/* handwriting reveal — each character inks in */
+.write .ink {
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity .45s ease, filter .8s ease;
+}
+.write.written .ink {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* ── closing ────────────────────────────── */
+.closing {
+  position: relative;
+  z-index: 1;
+  min-height: 85svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem 5rem;
+}
+.closing .adore {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3rem, 10vw, 5.4rem);
+  line-height: 1.25;
+  background: linear-gradient(120deg, #b06cb0, var(--deep-purple), #d476ab);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.closing .signature {
+  font-family: 'Quicksand', sans-serif;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  font-size: clamp(.85rem, 2.4vw, 1rem);
+  color: var(--soft-purple);
+  margin-top: 2rem;
+}
+.closing .heart {
+  font-size: 2rem;
+  margin-top: 1.6rem;
+  animation: heartbeat 1.6s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  12%      { transform: scale(1.18); }
+  24%      { transform: scale(1); }
+  36%      { transform: scale(1.12); }
+  48%      { transform: scale(1); }
+}
+.back-link {
+  display: inline-block;
+  margin-top: 3rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .74rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(205, 180, 232, .8);
+  padding-bottom: .3rem;
+  transition: color .4s ease;
+}
+.back-link:hover { color: var(--soft-purple); }
+
+/* ── gentler for anyone who prefers it ──── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .floaty,
+  .hero .envelope-emoji,
+  .scroll-hint .arrow,
+  .closing .heart,
+  .wax-seal { animation: none; }
+  .floaty { display: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .write .ink { transition: none; }
+  .env-overlay, .env-flap, .env-letter, .wax-seal { transition: none; }
+  .letter-card { transition: none; }
+}
