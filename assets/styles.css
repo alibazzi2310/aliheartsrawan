@@ -157,12 +157,20 @@ body.locked { overflow: hidden; }
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-family: 'Great Vibes', cursive;
-  font-size: 1.45rem;
-  color: #fdeef8;
   background: radial-gradient(circle at 35% 32%, #cf8ec4, #a4589b 62%, #8d4487);
   box-shadow: 0 4px 12px rgba(141, 68, 135, .38), inset 0 0 0 4px rgba(255, 255, 255, .14);
   margin-bottom: .35rem;
+}
+
+/* The R on the seals is the Great Vibes outline drawn as SVG, with the
+   viewBox set to the glyph's exact ink bounds. Centring the image therefore
+   centres the visible letter — as live text the cursive R lands off-centre,
+   because CSS centres the character box and this glyph's ink sits high and
+   left inside it. */
+.seal-mark {
+  display: block;
+  width: 55%;
+  height: auto;
 }
 .card-no {
   font-family: 'Quicksand', sans-serif;
@@ -332,12 +340,8 @@ body.locked { overflow: hidden; }
   z-index: 5;
   background: radial-gradient(circle at 35% 32%, #cf8ec4, #a4589b 62%, #8d4487);
   box-shadow: 0 4px 12px rgba(141, 68, 135, .45), inset 0 0 0 5px rgba(255, 255, 255, .14);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Great Vibes', cursive;
-  font-size: 2rem;
-  color: #fdeef8;
+  display: grid;
+  place-items: center;
   transition: transform .5s ease, opacity .5s ease;
   animation: sealGlow 2.6s ease-in-out infinite;
 }
