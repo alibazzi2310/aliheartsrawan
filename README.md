@@ -23,6 +23,7 @@ Every push to `main` automatically republishes the page — still free.
 ```
 index.html               the keepsake box — the shelf of letters
 letters/your-name.html   Letter No. I — "Your Name"
+letters/no-2.html        Letter No. II — poem, photo and video
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
 manifest.webmanifest     lets her add the site to her phone's home screen
@@ -40,6 +41,20 @@ assets/icon-*.png        the home-screen icons
    number, title, and date.
 
 That's it — styling and animations come along automatically.
+
+## Adding a photo or a video to a letter
+
+`letters/no-2.html` has both, sitting as placeholders. Each one is a
+`<figure>` marked `is-placeholder`; to fill it in, put the real thing inside
+its `.media-inner` and delete that class. The markup to paste is written out
+in a comment right above each block.
+
+- **Photos** go in `assets/photos/`. They're framed like a polaroid with a
+  handwritten caption underneath.
+- **Video** can either live in `assets/video/` in this repo, or be embedded
+  from YouTube or Vimeo. Keep a repo-hosted file under about 50MB — GitHub
+  refuses files over 100MB, and a large video makes the page slow to load on
+  a phone. Compressing to 720p is usually plenty.
 
 ## What's on the page
 

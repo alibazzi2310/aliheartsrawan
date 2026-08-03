@@ -491,6 +491,97 @@ body.locked { overflow: hidden; }
   user-select: none;
 }
 
+/* ── media inside a letter: photos and video ─────────────
+   Both start as placeholders. To fill one in, drop an <img>
+   or a <video>/<iframe> into .media-inner and remove the
+   is-placeholder class from the figure. */
+.media {
+  max-width: 440px;
+  margin: 0 auto 2.8rem;
+}
+.media .media-inner {
+  display: grid;
+  place-items: center;
+  gap: .7rem;
+  overflow: hidden;
+  background: linear-gradient(150deg, #f6ecfb, #fbe4f0);
+}
+.media img,
+.media video,
+.media iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+.media .media-note {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .78rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+  text-align: center;
+  padding: 0 1rem;
+}
+.is-placeholder .media-inner {
+  border: 1px dashed var(--lilac);
+}
+
+/* video */
+.video-frame .media-inner {
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  box-shadow: 0 16px 38px rgba(124, 94, 158, .17);
+}
+.video-frame figcaption {
+  margin-top: .9rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .72rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+.play {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 35% 32%, #cf8ec4, #a4589b 62%, #8d4487);
+  box-shadow: 0 6px 16px rgba(141, 68, 135, .34);
+}
+.play::before {
+  content: '';
+  border-style: solid;
+  border-width: 10px 0 10px 17px;
+  border-color: transparent transparent transparent #fdeef8;
+  margin-left: 5px;
+}
+
+/* photo, framed like a polaroid */
+.polaroid {
+  max-width: 320px;
+  padding: 14px 14px 0;
+  background: #fff;
+  /* the letter is near-white too, so the print needs an edge of its own */
+  border: 1px solid rgba(205, 180, 232, .45);
+  border-radius: 5px;
+  box-shadow: 0 18px 40px rgba(124, 94, 158, .22);
+  transform: rotate(-1.8deg);
+}
+.polaroid .media-inner {
+  aspect-ratio: 4 / 5;
+}
+.polaroid figcaption {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.4rem;
+  color: var(--deep-purple);
+  text-align: center;
+  padding: .75rem 0 1rem;
+}
+
 /* handwriting reveal — each character inks in */
 .write .ink {
   opacity: 0;
