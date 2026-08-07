@@ -10,6 +10,19 @@
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* A letter can ask for a different ambience with data-ambient on <body>.
+     Default is hearts; the flower letters use petals. */
+  var ambient = document.body.getAttribute('data-ambient') || 'hearts';
+
+  var PETAL_PATH = 'M12 1 C 18 7, 18 17, 12 23 C 6 17, 6 7, 12 1';
+  var PETAL_TINTS = ['#f0b9d4', '#e3c8f0', '#f7d4e6', '#d9c2ee', '#f4c6dd'];
+
+  function petalSVG(size, tint, opacity) {
+    return '<svg class="petal-spin" width="' + size.toFixed(1) + '" height="' + size.toFixed(1) + '" ' +
+           'viewBox="0 0 24 24" style="animation-duration:' + (7 + Math.random() * 9).toFixed(1) + 's">' +
+           '<path d="' + PETAL_PATH + '" fill="' + tint + '" fill-opacity="' + opacity + '"/></svg>';
+  }
+
   /* ── a greeting that knows the time of day ── */
   (function timeGreeting() {
     var el = document.querySelector('[data-greeting]');
@@ -24,12 +37,35 @@
     el.textContent = word + ', ' + name;
   })();
 
-  /* ── floating hearts & sparkles ───────────── */
+  /* ── ambience: hearts drifting up, or petals falling ── */
   (function floaties() {
     var container = document.querySelector('.floaties');
     if (!container || reducedMotion) return;
-    var symbols = ['💜', '💗', '🩷', '✨', '🌸', '💕'];
     var small = window.innerWidth < 640;        // gentler on a phone screen
+
+    if (ambient === 'petals') {
+      var petalCount = small ? 12 : 20;
+      for (var p = 0; p < petalCount; p++) {
+        var fall = document.createElement('div');
+        fall.className = 'petal-fall';
+        fall.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+        fall.style.animationDuration = (13 + Math.random() * 13).toFixed(1) + 's';
+        fall.style.animationDelay = (-Math.random() * 26).toFixed(1) + 's';
+        var sway = document.createElement('div');
+        sway.className = 'petal-sway';
+        sway.style.animationDuration = (2.6 + Math.random() * 2.4).toFixed(1) + 's';
+        sway.innerHTML = petalSVG(
+          (small ? 11 : 13) + Math.random() * (small ? 8 : 12),
+          PETAL_TINTS[p % PETAL_TINTS.length],
+          (0.4 + Math.random() * 0.35).toFixed(2)
+        );
+        fall.appendChild(sway);
+        container.appendChild(fall);
+      }
+      return;
+    }
+
+    var symbols = ['💜', '💗', '🩷', '✨', '🌸', '💕'];
     var count = small ? 10 : 18;
     var base = small ? 0.5 : 0.7;
     var range = small ? 0.5 : 1.1;
@@ -60,16 +96,22 @@
       }
       lastX = x; lastY = y; lastTime = now;
 
-      var heart = document.createElement('span');
-      heart.className = 'trail-heart';
-      heart.textContent = '♥';
-      heart.style.left = x + 'px';
-      heart.style.top = y + 'px';
-      heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-      heart.style.fontSize = (0.6 + Math.random() * 0.6) + 'rem';
-      heart.style.opacity = 0.55 + Math.random() * 0.35;
-      document.body.appendChild(heart);
-      heart.addEventListener('animationend', function () { heart.remove(); });
+      var mark = document.createElement('span');
+      if (ambient === 'petals') {
+        mark.className = 'trail-petal';
+        mark.innerHTML = petalSVG(10 + Math.random() * 8,
+          PETAL_TINTS[Math.floor(Math.random() * PETAL_TINTS.length)], 0.85);
+      } else {
+        mark.className = 'trail-heart';
+        mark.textContent = '♥';
+        mark.style.color = colors[Math.floor(Math.random() * colors.length)];
+        mark.style.fontSize = (0.6 + Math.random() * 0.6) + 'rem';
+        mark.style.opacity = 0.55 + Math.random() * 0.35;
+      }
+      mark.style.left = x + 'px';
+      mark.style.top = y + 'px';
+      document.body.appendChild(mark);
+      mark.addEventListener('animationend', function () { mark.remove(); });
     }
 
     window.addEventListener('pointermove', function (e) { drop(e.clientX, e.clientY); }, { passive: true });
@@ -135,22 +177,44 @@
   (function scrollReveal() {
     var writes = document.querySelectorAll('.write');
     var reveals = document.querySelectorAll('.reveal');
-    if (!writes.length && !reveals.length) return;
+    var vines = document.querySelectorAll('.vine');
+    if (!writes.length && !reveals.length && !vines.length) return;
+
+    // each vine starts as an undrawn line
+    vines.forEach(function (vine) {
+      var stroke = vine.querySelector('.stroke');
+      if (!stroke) return;
+      var len = stroke.getTotalLength();
+      stroke.style.strokeDasharray = len;
+      stroke.style.strokeDashoffset = reducedMotion ? 0 : len;
+    });
+
+    function show(el) {
+      if (el.classList.contains('vine')) {
+        el.classList.add('drawn');
+        var stroke = el.querySelector('.stroke');
+        if (stroke) stroke.style.strokeDashoffset = 0;
+      } else if (el.classList.contains('write')) {
+        el.classList.add('written');
+      } else {
+        el.classList.add('visible');
+      }
+    }
 
     if (!('IntersectionObserver' in window)) {
-      writes.forEach(function (el) { el.classList.add('written'); });
-      reveals.forEach(function (el) { el.classList.add('visible'); });
+      writes.forEach(show); reveals.forEach(show); vines.forEach(show);
       return;
     }
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add(entry.target.classList.contains('write') ? 'written' : 'visible');
+        show(entry.target);
         observer.unobserve(entry.target);
       });
     }, { threshold: 0.25 });
     writes.forEach(function (el) { observer.observe(el); });
     reveals.forEach(function (el) { observer.observe(el); });
+    vines.forEach(function (el) { observer.observe(el); });
   })();
 
   /* ── "keep this on your phone" tip ────────── */
