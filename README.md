@@ -23,7 +23,7 @@ Every push to `main` automatically republishes the page — still free.
 ```
 index.html               the keepsake box — the shelf of letters
 letters/your-name.html   Letter No. I — "Your Name"
-letters/no-2.html        Letter No. II — poem, photo and video
+letters/no-2.html        Letter No. II — the bouquet: poem, photo and vlog
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
 manifest.webmanifest     lets her add the site to her phone's home screen
@@ -41,6 +41,24 @@ assets/icon-*.png        the home-screen icons
    number, title, and date.
 
 That's it — styling and animations come along automatically.
+
+## Giving a letter its own theme
+
+A letter can change the drifting shapes with one attribute on `<body>`:
+
+```html
+<body class="locked" data-ambient="petals">
+```
+
+Leave it off for the default hearts; `petals` gives falling petals instead,
+and the finger-trail follows suit. Letter No. II uses it, along with three
+other flower pieces that any letter can reuse:
+
+- `<svg class="vine">` — a stem that draws itself when scrolled to, used in
+  place of the `✿ ✿ ✿` divider.
+- `<section class="stems-card">` — the flowers and what each one means, set
+  like an index with dotted leaders.
+- `<aside class="care-tag">` — a florist's care tag.
 
 ## Adding a photo or a video to a letter
 

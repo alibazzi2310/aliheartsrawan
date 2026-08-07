@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Second Letter — for Rawan ♡</title>
+<title>Flowers for You — for Rawan ♡</title>
 <meta name="description" content="Letter No. II, for Rawan.">
 <meta name="theme-color" content="#f6edfb">
 
@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Great+Vibes&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
-<body class="locked">
+<body class="locked" data-ambient="petals">
 
   <!-- sealed envelope — the letter begins closed, tap the seal to open -->
   <div class="env-overlay" id="envOverlay">
@@ -42,9 +42,16 @@
   <div class="floaties" aria-hidden="true"></div>
 
   <header class="hero">
-    <div class="envelope-emoji">💌</div>
+    <svg class="sprig" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M20 37 C 20 24, 20 14, 20 5" fill="none" stroke="#c2cfb8" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M20 21 C 13 20, 9 15, 9 11 C 15 11, 19 15, 20 21 Z" fill="#c2cfb8"/>
+      <path d="M20 27 C 27 26, 31 21, 31 17 C 25 17, 21 21, 20 27 Z" fill="#c2cfb8" opacity=".8"/>
+      <circle cx="20" cy="7" r="4.4" fill="#f4c6dd"/>
+      <circle cx="15.6" cy="10" r="3.4" fill="#e8cdf0"/>
+      <circle cx="24.4" cy="10" r="3.4" fill="#f7d9e8"/>
+    </svg>
     <p class="letter-no">Letter No. II</p>
-    <h1>A Second Letter</h1>
+    <h1>Flowers for You</h1>
     <p class="subtitle">for Rawan</p>
     <a class="scroll-hint" href="#letter">
       <span>keep going</span>
@@ -60,56 +67,88 @@
         <!-- ✍️ POEM — placeholder text, replace the stanzas below.
              Keep class="stanza write" so the handwriting effect runs. -->
         <p class="stanza write">
-          Placeholder line one, soft and low,<br>
-          a second letter, just to show.
+          I chose them one stem at a time,<br>
+          each for something I couldn&rsquo;t say.
         </p>
 
-        <p class="divider reveal" aria-hidden="true">✿ ✿ ✿</p>
+        <svg class="vine" viewBox="0 0 200 46" aria-hidden="true">
+          <path class="stroke" d="M6 23 C 40 2, 62 44, 100 23 C 138 2, 160 44, 194 23"/>
+          <g transform="translate(58 30) rotate(28)"><path class="leaf" d="M0 0 C 5 -7, 14 -7, 18 0 C 14 7, 5 7, 0 0"/></g>
+          <g transform="translate(142 16) rotate(-152)"><path class="leaf" d="M0 0 C 5 -7, 14 -7, 18 0 C 14 7, 5 7, 0 0"/></g>
+        </svg>
 
         <p class="stanza write">
-          Placeholder line three, gently said,<br>
-          the real words go here instead.
+          Not the kind wrapped up in a shop &mdash;<br>
+          these I cut, and tied, and got wrong twice.
         </p>
 
+        <!-- 🌸 THE STEMS — replace these with the flowers actually in the
+             bouquet, and what you want each one to mean. -->
+        <section class="stems-card reveal">
+          <p class="stems-head">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 19 C 10 12, 10 7, 10 2" fill="none" stroke="#c2cfb8" stroke-width="1.4" stroke-linecap="round"/><path d="M10 10 C 5 9, 3 6, 3 3 C 7 3, 9 6, 10 10 Z"/><path d="M10 14 C 15 13, 17 10, 17 7 C 13 7, 11 10, 10 14 Z"/></svg>
+            what each stem means
+          </p>
+          <dl class="stems">
+            <div class="stem-row"><dt>Ranunculus</dt><span class="leader"></span><dd>I am dazzled by you</dd></div>
+            <div class="stem-row"><dt>Peony</dt><span class="leader"></span><dd>a happy life together</dd></div>
+            <div class="stem-row"><dt>Lavender</dt><span class="leader"></span><dd>devotion</dd></div>
+            <div class="stem-row"><dt>Gypsophila</dt><span class="leader"></span><dd>everlasting love</dd></div>
+            <div class="stem-row"><dt>Eucalyptus</dt><span class="leader"></span><dd>protection</dd></div>
+          </dl>
+        </section>
+
+        <svg class="vine" viewBox="0 0 200 46" aria-hidden="true">
+          <path class="stroke" d="M6 23 C 40 2, 62 44, 100 23 C 138 2, 160 44, 194 23"/>
+          <g transform="translate(58 30) rotate(28)"><path class="leaf" d="M0 0 C 5 -7, 14 -7, 18 0 C 14 7, 5 7, 0 0"/></g>
+          <g transform="translate(142 16) rotate(-152)"><path class="leaf" d="M0 0 C 5 -7, 14 -7, 18 0 C 14 7, 5 7, 0 0"/></g>
+        </svg>
+
         <!-- 📸 PHOTO — replace the .media-inner contents with:
-             <img src="../assets/photos/us.jpg" alt="">
+             <img src="../assets/photos/bouquet.jpg" alt="">
              then delete is-placeholder from the figure below. -->
         <figure class="media polaroid is-placeholder reveal">
           <div class="media-inner">
-            <span class="media-note">a photo of us</span>
+            <span class="media-note">the finished bouquet</span>
           </div>
-          <figcaption>a moment I keep</figcaption>
+          <figcaption>tied twice, badly</figcaption>
         </figure>
 
         <p class="stanza write">
-          Placeholder line five, warm and true,<br>
-          every one of them means you.
-        </p>
-
-        <p class="divider reveal" aria-hidden="true">✿ ✿ ✿</p>
-
-        <p class="stanza write">
-          Placeholder last line, then your name —<br>
+          They&rsquo;ll wilt by Sunday, I know.<br>
+          I&rsquo;ll bring you more &mdash; that&rsquo;s rather the point,<br>
           <span class="her-name">Rawan.</span>
         </p>
 
-        <!-- 🎬 VIDEO — replace the .media-inner contents with either:
+        <!-- 🎬 THE VLOG — replace the .media-inner contents with either:
              a file kept in the repo (best quality, keep it under ~50MB):
                <video controls playsinline preload="metadata"
-                      poster="../assets/photos/video-cover.jpg">
-                 <source src="../assets/video/us.mp4" type="video/mp4">
+                      poster="../assets/photos/vlog-cover.jpg">
+                 <source src="../assets/video/bouquet.mp4" type="video/mp4">
                </video>
              or a hosted one:
                <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-                       title="A video for you" allowfullscreen></iframe>
+                       title="Making the bouquet" allowfullscreen></iframe>
              then delete is-placeholder from the figure below. -->
         <figure class="media video-frame is-placeholder reveal">
           <div class="media-inner">
             <span class="play" aria-hidden="true"></span>
-            <span class="media-note">a video for you</span>
+            <span class="media-note">making them, start to finish</span>
           </div>
-          <figcaption>press play ♡</figcaption>
+          <figcaption>the vlog</figcaption>
         </figure>
+
+        <aside class="care-tag reveal">
+          <span class="punch" aria-hidden="true"></span>
+          <p class="care-head">care instructions</p>
+          <p class="care-body">
+            Trim the stems every few days.<br>
+            Change the water on Sundays.<br>
+            Keep them where the light is best &mdash;<br>
+            they were picked by someone who<br>
+            thinks about you constantly.
+          </p>
+        </aside>
       </article>
     </section>
 

@@ -14,6 +14,10 @@
   --muted: #b39ccc;
   --ink: #6b5382;
   --paper: #fffafd;
+  /* botanical accent, used only by letters with a flower theme */
+  --stem: #8fa383;
+  --stem-soft: #c2cfb8;
+  --tag: #f7f8f3;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -55,6 +59,33 @@ body.locked { overflow: hidden; }
   10%  { opacity: .55; }
   90%  { opacity: .35; }
   100% { transform: translateY(-115vh) rotate(24deg); opacity: 0; }
+}
+
+/* ── falling petals (letters with data-ambient="petals") ── */
+.petal-fall {
+  position: absolute;
+  top: -12vh;
+  animation: fall linear infinite;
+}
+.petal-sway { animation: sway ease-in-out infinite alternate; }
+.petal-spin { display: block; animation: spin linear infinite; }
+@keyframes fall { to { transform: translateY(118vh); } }
+@keyframes sway {
+  from { transform: translateX(-16px); }
+  to   { transform: translateX(16px); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.trail-petal {
+  position: fixed;
+  z-index: 15;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: petalTrail 1.2s ease-out forwards;
+}
+@keyframes petalTrail {
+  from { opacity: .75; transform: translate(-50%, -50%) scale(.5) rotate(0deg); }
+  to   { opacity: 0;   transform: translate(-50%, 40%) scale(1) rotate(70deg); }
 }
 
 /* ── heart trail (follows her finger) ───── */
@@ -381,6 +412,14 @@ body.locked { overflow: hidden; }
   animation: bob 3.4s ease-in-out infinite;
   filter: drop-shadow(0 8px 18px rgba(157, 127, 194, .35));
 }
+/* the flower letters open on a sprig instead of the envelope */
+.hero .sprig {
+  width: 56px;
+  height: 56px;
+  margin-bottom: .5rem;
+  animation: bob 3.4s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(157, 127, 194, .25));
+}
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-12px); }
@@ -489,6 +528,120 @@ body.locked { overflow: hidden; }
   letter-spacing: .8em;
   margin: 0 0 2.4rem;
   user-select: none;
+}
+
+/* ── vine divider, drawn as she scrolls past it ─────────
+   Note: the leaf's placement lives on a wrapping <g>, because
+   the SVG transform attribute and the CSS transform property
+   are the same thing — a CSS transform here would wipe it out. */
+.vine {
+  display: block;
+  width: min(210px, 62%);
+  margin: 0 auto 2.4rem;
+  overflow: visible;
+}
+.vine .stroke {
+  fill: none;
+  stroke: var(--stem-soft);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.9s cubic-bezier(.4, 0, .25, 1);
+}
+.vine .leaf {
+  fill: var(--stem-soft);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  transform: scale(.3);
+  transition: opacity .8s ease 1.15s, transform .9s cubic-bezier(.3, 1.4, .5, 1) 1.15s;
+}
+.vine.drawn .leaf { opacity: .95; transform: scale(1); }
+
+/* ── the stems, set like an index ───────────────────────── */
+.stems-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-bottom: 2.6rem;
+}
+.stems-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--stem);
+}
+.stems-head svg { width: 15px; height: 15px; fill: var(--stem-soft); }
+.stems { display: flex; flex-direction: column; gap: .85rem; }
+.stem-row { display: flex; align-items: baseline; gap: .55rem; }
+.stem-row dt {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  color: var(--deep-purple);
+  white-space: nowrap;
+}
+.stem-row .leader {
+  flex: 1;
+  min-width: 1.5rem;
+  border-bottom: 1px dotted var(--stem-soft);
+  transform: translateY(-.3em);
+}
+.stem-row dd {
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--ink);
+  text-align: right;
+}
+@media (max-width: 540px) {
+  .stem-row { flex-direction: column; align-items: flex-start; gap: .1rem; }
+  .stem-row .leader { display: none; }
+  .stem-row dd { text-align: left; padding-left: 1.1rem; }
+}
+
+/* ── the florist's care tag ─────────────────────────────── */
+.care-tag {
+  position: relative;
+  max-width: 330px;
+  margin: 0 auto;
+  padding: 1.9rem 1.6rem 1.4rem;
+  background: var(--tag);
+  border: 1px solid rgba(143, 163, 131, .38);
+  border-radius: 10px;
+  box-shadow: 0 10px 26px rgba(124, 94, 158, .13);
+  transform: rotate(1.4deg);
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+.care-tag .punch {
+  position: absolute;
+  top: .7rem;
+  left: 50%;
+  width: 13px;
+  height: 13px;
+  margin-left: -6.5px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid rgba(143, 163, 131, .45);
+}
+.care-head {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .66rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--stem);
+  text-align: center;
+}
+.care-body {
+  font-style: italic;
+  font-size: 1.04rem;
+  line-height: 1.85;
+  text-align: center;
 }
 
 /* ── media inside a letter: photos and video ─────────────
@@ -662,4 +815,6 @@ body.locked { overflow: hidden; }
   .write .ink { transition: none; }
   .env-overlay, .env-flap, .env-letter, .wax-seal { transition: none; }
   .letter-card { transition: none; }
+  .vine .stroke { stroke-dashoffset: 0 !important; transition: none; }
+  .vine .leaf { opacity: .95; transform: scale(1); transition: none; }
 }
