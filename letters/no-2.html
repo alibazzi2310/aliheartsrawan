@@ -119,20 +119,18 @@
           <span class="her-name">Rawan.</span>
         </p>
 
-        <!-- 🎬 THE VLOG — replace the .media-inner contents with either:
-             a file kept in the repo (best quality, keep it under ~50MB):
-               <video controls playsinline preload="metadata"
-                      poster="../assets/photos/vlog-cover.jpg">
-                 <source src="../assets/video/bouquet.mp4" type="video/mp4">
-               </video>
-             or a hosted one:
-               <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-                       title="Making the bouquet" allowfullscreen></iframe>
-             then delete is-placeholder from the figure below. -->
-        <figure class="media video-frame is-placeholder reveal">
+        <!-- 🎬 THE VLOG — unlisted on YouTube, embedded through the
+             no-cookie domain so nothing is set until she presses play.
+             If the video is portrait, change the aspect-ratio on
+             .video-frame .media-inner in assets/styles.css to 9 / 16. -->
+        <figure class="media video-frame reveal">
           <div class="media-inner">
-            <span class="play" aria-hidden="true"></span>
-            <span class="media-note">making them, start to finish</span>
+            <iframe src="https://www.youtube-nocookie.com/embed/jmi3gtjhuB0?rel=0"
+                    title="Making the bouquet for Rawan"
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
           </div>
           <figcaption>the vlog</figcaption>
         </figure>
