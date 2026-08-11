@@ -681,7 +681,12 @@ body.locked { overflow: hidden; }
   border: 1px dashed var(--lilac);
 }
 
-/* video */
+/* video — the vlog is the centrepiece, so it runs wider than a photo.
+   For a portrait video, change the aspect-ratio below to 9 / 16 and drop
+   the max-width to about 340px. */
+.video-frame {
+  max-width: 100%;
+}
 .video-frame .media-inner {
   aspect-ratio: 16 / 9;
   border-radius: 16px;
