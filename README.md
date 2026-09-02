@@ -24,6 +24,8 @@ Every push to `main` automatically republishes the page — still free.
 index.html               the keepsake box — the shelf of letters
 letters/your-name.html   Letter No. I — "Your Name"
 letters/no-2.html        Letter No. II — the bouquet: poem, photo and vlog
+letters/no-3.html        Letter No. III — three photo puzzles that unlock a poem
+assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
 manifest.webmanifest     lets her add the site to her phone's home screen
@@ -60,12 +62,25 @@ other flower pieces that any letter can reuse:
   like an index with dotted leaders.
 - `<aside class="care-tag">` — a florist's care tag.
 
+## The puzzle letter
+
+`letters/no-3.html` is a game: three 3x3 boards made from photos in
+`assets/photos/`, solved by tapping two pieces to swap them. Solve all three
+and the sealed letter at the bottom opens. Progress is kept in the browser,
+so she can close it and come back.
+
+To change it: swap the files the `data-src` attributes point at, and rewrite
+the `.puzzle-caption` under each board. The scramble reshuffles until at
+least seven of the nine pieces are out of place, so a board is never dealt
+half solved.
+
 ## Adding a photo or a video to a letter
 
-`letters/no-2.html` has both, sitting as placeholders. Each one is a
-`<figure>` marked `is-placeholder`; to fill it in, put the real thing inside
-its `.media-inner` and delete that class. The markup to paste is written out
-in a comment right above each block.
+`letters/no-2.html` has both, filled in. Each is a `<figure class="media …">`
+with the real content inside its `.media-inner`. An empty one carries the
+extra class `is-placeholder`, which draws the dashed frame; delete that class
+once the real thing is in. The markup to paste sits in a comment above each
+block.
 
 - **Photos** go in `assets/photos/`. They're framed like a polaroid with a
   handwritten caption underneath.
