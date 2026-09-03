@@ -24,7 +24,8 @@ Every push to `main` automatically republishes the page — still free.
 index.html               the keepsake box — the shelf of letters
 letters/your-name.html   Letter No. I — "Your Name"
 letters/no-2.html        Letter No. II — the bouquet: poem, photo and vlog
-letters/no-3.html        Letter No. III — three photo puzzles that unlock a poem
+letters/no-3.html        Letter No. III — "My Favourite Puzzle": three photo
+                         puzzles that unlock a poem
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
