@@ -1029,3 +1029,74 @@ body.locked { overflow: hidden; }
   .confetti-heart { display: none; }
   .vault.just-opened .vault-open { animation: none; }
 }
+
+/* ── the countdown ─────────────────────────────────────── */
+.countdown {
+  max-width: 420px;
+  margin: clamp(2.2rem, 6vh, 3rem) auto 0;
+  padding: 1.7rem 1.5rem 1.4rem;
+  background: var(--paper);
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  box-shadow: 0 16px 38px rgba(124, 94, 158, .16);
+  text-align: center;
+}
+.cd-label {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .68rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+}
+.cd-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.2rem, 8vw, 2.9rem);
+  line-height: 1.15;
+  margin-top: .1rem;
+  background: linear-gradient(120deg, var(--deep-purple), #d476ab, var(--soft-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.cd-units {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .4rem;
+  margin-top: 1.1rem;
+}
+.cd-unit {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  padding: 0 .2rem;
+}
+.cd-unit + .cd-unit { border-left: 1px solid rgba(205, 180, 232, .45); }
+.cd-num {
+  font-size: clamp(1.9rem, 7vw, 2.4rem);
+  line-height: 1.1;
+  color: var(--deep-purple);
+  font-variant-numeric: tabular-nums;   /* so the digits don't jitter as they tick */
+}
+.cd-cap {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cd-date {
+  margin-top: 1rem;
+  font-style: italic;
+  font-size: .95rem;
+  color: var(--soft-purple);
+}
+.cd-arrived {
+  display: none;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.6rem, 6vw, 2rem);
+  color: var(--deep-purple);
+  margin-top: .6rem;
+}
+.countdown.arrived .cd-units,
+.countdown.arrived .cd-date { display: none; }
+.countdown.arrived .cd-arrived { display: block; }

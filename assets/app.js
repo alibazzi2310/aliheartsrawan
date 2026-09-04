@@ -217,6 +217,40 @@
     vines.forEach(function (el) { observer.observe(el); });
   })();
 
+  /* ── the countdown, ticking live ─────────── */
+  (function countdown() {
+    var el = document.getElementById('countdown');
+    if (!el) return;
+
+    var parts = (el.getAttribute('data-target') || '').split('-').map(Number);
+    if (parts.length !== 3 || parts.some(isNaN)) return;
+    // local midnight at the start of that day, so it reads correctly
+    // wherever she happens to be
+    var target = new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
+
+    var out = {
+      days: el.querySelector('[data-cd="days"]'),
+      hours: el.querySelector('[data-cd="hours"]'),
+      minutes: el.querySelector('[data-cd="minutes"]')
+    };
+    if (!out.days || !out.hours || !out.minutes) return;
+
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+    function tick() {
+      var left = target - Date.now();
+      if (left <= 0) { el.classList.add('arrived'); return true; }
+      var mins = Math.floor(left / 60000);
+      out.days.textContent = Math.floor(mins / 1440);
+      out.hours.textContent = pad(Math.floor(mins % 1440 / 60));
+      out.minutes.textContent = pad(mins % 60);
+      return false;
+    }
+
+    if (tick()) return;
+    var timer = setInterval(function () { if (tick()) clearInterval(timer); }, 1000);
+  })();
+
   /* ── "keep this on your phone" tip ────────── */
   (function homeScreenTip() {
     var tip = document.getElementById('tip');
