@@ -21,21 +21,27 @@
         by index. Keep every star used by at least one edge. ── */
   var SKIES = [
     {
-      name: 'The House',
-      dream: 'a home with a red door, and the noise of you in it',
-      stars: [[28, 74], [72, 74], [72, 46], [28, 46], [50, 24]],
-      edges: [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 2]]
+      name: 'The Home',
+      dream: 'a home of our own, and you filling it with candlelight',
+      stars: [[30, 72], [70, 72], [70, 50], [30, 50], [50, 28]],
+      edges: [[0, 1], [1, 2], [2, 4], [4, 3], [3, 0]]
     },
     {
       name: 'The Wanderer',
-      dream: 'waking up somewhere neither of us has been',
-      stars: [[16, 62], [37, 38], [58, 54], [82, 30], [64, 76]],
-      edges: [[0, 1], [1, 2], [2, 3], [2, 4]]
+      dream: 'getting lost together, somewhere neither of us has been',
+      stars: [[16, 64], [34, 40], [54, 58], [72, 34], [86, 54]],
+      edges: [[0, 1], [1, 2], [2, 3], [3, 4]]
     },
     {
-      name: 'The Long Table',
-      dream: 'a table too small for everyone we love',
-      stars: [[22, 36], [50, 26], [78, 36], [68, 70], [32, 70]],
+      name: 'The Cradle',
+      dream: 'small feet in the hallway, and your eyes looking back at me',
+      stars: [[22, 38], [31, 62], [50, 72], [69, 62], [78, 38]],
+      edges: [[0, 1], [1, 2], [2, 3], [3, 4]]
+    },
+    {
+      name: 'The Atelier',
+      dream: 'your name on the label, and me in the front row',
+      stars: [[50, 26], [38, 46], [28, 74], [72, 74], [62, 46]],
       edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]]
     }
   ];
