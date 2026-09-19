@@ -1,9 +1,10 @@
 /* ═══════════════════════════════════════════
    For Rawan — the constellations
-   Tap one star, then another, to join them.
-   Finish a constellation and it lights up and
-   names a dream. Finish all three and the
-   letter below unlocks.
+   Join two stars to draw a line: either drag
+   from one to the other, or tap one and then
+   the other. Finish a constellation and it
+   lights up and names a dream. Finish all
+   three and the letter below unlocks.
    ═══════════════════════════════════════════ */
 
 (function () {
@@ -87,7 +88,9 @@
     card.className = 'sky-card reveal';
     card.innerHTML =
       '<div class="sky-panel">' +
-        '<svg class="sky-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>' +
+        '<svg class="sky-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' +
+          '<line class="sky-drag" x1="0" y1="0" x2="0" y2="0"></line>' +
+        '</svg>' +
         '<div class="sky-stars"></div>' +
       '</div>' +
       '<p class="sky-name">' + sky.name + '</p>' +
@@ -95,9 +98,11 @@
     host.appendChild(card);
     if (revealer) revealer.observe(card); else card.classList.add('visible');
 
+    var panel = card.querySelector('.sky-panel');
     var svg = card.querySelector('.sky-lines');
+    var dragLine = card.querySelector('.sky-drag');
     var field = card.querySelector('.sky-stars');
-    var drawn = [];                       // one flag per edge
+    var drawn = [];
     var picked = null;
     var lines = [];
 
@@ -118,9 +123,7 @@
       b.className = 'star';
       b.style.left = s[0] + '%';
       b.style.top = s[1] + '%';
-      b.setAttribute('aria-label', 'Star ' + (i + 1) + ' of ' + sky.stars.length +
-                     ', ' + sky.name);
-      b.addEventListener('click', function () { tap(i); });
+      b.setAttribute('aria-label', 'Star ' + (i + 1) + ' of ' + sky.stars.length + ', ' + sky.name);
       field.appendChild(b);
       return b;
     });
@@ -138,6 +141,12 @@
       lines.forEach(function (ln, i) { ln.classList.toggle('drawn', drawn[i]); });
     }
 
+    function nope(i) {
+      var el = starEls[i];
+      el.classList.add('nope');
+      setTimeout(function () { el.classList.remove('nope'); }, 420);
+    }
+
     function finish(animate) {
       card.classList.add('lit');
       starEls.forEach(function (el) { el.disabled = true; });
@@ -146,25 +155,87 @@
       refreshLock(animate);
     }
 
+    // returns true when a new line was drawn
+    function connect(a, b) {
+      var e = edgeIndex(a, b);
+      if (e === -1 || drawn[e]) { nope(b); return false; }
+      drawn[e] = true;
+      if (drawn.every(Boolean)) {
+        picked = null;
+        paint();
+        finish(true);
+      } else {
+        picked = null;
+        paint();
+      }
+      return true;
+    }
+
+    /* ── tapping: one star, then another ── */
     function tap(i) {
       if (card.classList.contains('lit')) return;
       if (picked === null) { picked = i; paint(); return; }
       if (picked === i) { picked = null; paint(); return; }
-      var e = edgeIndex(picked, i);
-      if (e === -1 || drawn[e]) {
-        // not a line in this constellation — shrug it off and reselect
-        var wrong = starEls[i];
-        wrong.classList.add('nope');
-        setTimeout(function () { wrong.classList.remove('nope'); }, 420);
-        picked = i;
-        paint();
-        return;
-      }
-      drawn[e] = true;
-      picked = null;
-      paint();
-      if (drawn.every(Boolean)) finish(true);
+      if (!connect(picked, i)) { picked = i; paint(); }
     }
+
+    /* ── dragging: hold one star and pull to another ── */
+    var dragFrom = null, moved = false, swallowClick = false;
+
+    function pct(e) {
+      var r = panel.getBoundingClientRect();
+      return [(e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100];
+    }
+    function endDrag() {
+      dragFrom = null;
+      dragLine.classList.remove('active');
+    }
+
+    starEls.forEach(function (el, i) {
+      el.addEventListener('click', function () {
+        if (swallowClick) { swallowClick = false; return; }
+        tap(i);
+      });
+
+      el.addEventListener('pointerdown', function (e) {
+        if (card.classList.contains('lit')) return;
+        dragFrom = i;
+        moved = false;
+        // capture so the pointer keeps reporting to this star as it leaves it
+        try { el.setPointerCapture(e.pointerId); } catch (err) {}
+      });
+
+      el.addEventListener('pointermove', function (e) {
+        if (dragFrom === null) return;
+        var p = pct(e);
+        var from = sky.stars[dragFrom];
+        var dx = p[0] - from[0], dy = p[1] - from[1];
+        if (!moved && Math.sqrt(dx * dx + dy * dy) < 2) return;   // ignore a wobble
+        moved = true;
+        picked = dragFrom;
+        paint();
+        dragLine.setAttribute('x1', from[0]);
+        dragLine.setAttribute('y1', from[1]);
+        dragLine.setAttribute('x2', p[0]);
+        dragLine.setAttribute('y2', p[1]);
+        dragLine.classList.add('active');
+      });
+
+      el.addEventListener('pointerup', function (e) {
+        if (dragFrom === null) return;
+        var from = dragFrom;
+        endDrag();
+        if (!moved) return;                 // a tap, not a drag — let click handle it
+        swallowClick = true;                // a drag already decided things
+        var under = document.elementFromPoint(e.clientX, e.clientY);
+        var target = under && under.closest ? under.closest('.star') : null;
+        var j = starEls.indexOf(target);
+        if (j === -1 || j === from) { picked = null; paint(); return; }
+        if (!connect(from, j)) { picked = null; paint(); }
+      });
+
+      el.addEventListener('pointercancel', function () { endDrag(); picked = null; paint(); });
+    });
 
     if (done[si]) {
       drawn = drawn.map(function () { return true; });

@@ -26,8 +26,8 @@ letters/your-name.html   Letter No. I — "Your Name"
 letters/no-2.html        Letter No. II — the bouquet: poem, photo and vlog
 letters/no-3.html        Letter No. III — "My Favourite Puzzle": three photo
                          puzzles that unlock a poem
-letters/no-4.html        Letter No. IV — "Things We Haven't Done Yet": a night
-                         sky of constellations that unlock a poem
+letters/no-4.html        Letter No. IV — "Our Dreams": a night sky of
+                         constellations that unlock a poem
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
 assets/styles.css        all styling, shared by every page

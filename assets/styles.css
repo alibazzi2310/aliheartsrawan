@@ -1258,3 +1258,17 @@ body.night .pip.lit { background: radial-gradient(circle at 35% 32%, #f4d9ff, #b
   .sky-line, .sky-name, .sky-dream, .star::before { transition: none; }
   .star.nope::before { animation: none; }
 }
+
+/* the line that follows her finger while dragging between stars */
+.sky-drag {
+  stroke: #f4c6dd;
+  stroke-width: .45;
+  stroke-linecap: round;
+  stroke-dasharray: 2 2;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  pointer-events: none;
+}
+.sky-drag.active { opacity: .8; }
+/* let a drag start on a star without the page scrolling out from under it */
+.star { touch-action: none; }
