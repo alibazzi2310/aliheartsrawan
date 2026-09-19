@@ -115,6 +115,7 @@
     var field = card.querySelector('.sky-stars');
     var drawn = [];
     var picked = null;
+    var chain = null;
     var lines = [];
 
     sky.edges.forEach(function (e) {
@@ -148,7 +149,7 @@
     }
 
     function paint() {
-      starEls.forEach(function (el, i) { el.classList.toggle('picked', picked === i); });
+      starEls.forEach(function (el, i) { el.classList.toggle('picked', picked === i || chain === i); });
       lines.forEach(function (ln, i) { ln.classList.toggle('drawn', drawn[i]); });
     }
 
@@ -166,19 +167,14 @@
       refreshLock(animate);
     }
 
-    // returns true when a new line was drawn
-    function connect(a, b) {
+    // draws the line between two stars if there is one to draw;
+    // `quiet` skips the nudge, for when she is mid-trace
+    function connect(a, b, quiet) {
       var e = edgeIndex(a, b);
-      if (e === -1 || drawn[e]) { nope(b); return false; }
+      if (e === -1 || drawn[e]) { if (!quiet) nope(b); return false; }
       drawn[e] = true;
-      if (drawn.every(Boolean)) {
-        picked = null;
-        paint();
-        finish(true);
-      } else {
-        picked = null;
-        paint();
-      }
+      paint();
+      if (drawn.every(Boolean)) finish(true);
       return true;
     }
 
@@ -187,19 +183,46 @@
       if (card.classList.contains('lit')) return;
       if (picked === null) { picked = i; paint(); return; }
       if (picked === i) { picked = null; paint(); return; }
-      if (!connect(picked, i)) { picked = i; paint(); }
+      picked = connect(picked, i) ? null : i;
+      paint();
     }
 
-    /* ── dragging: hold one star and pull to another ── */
-    var dragFrom = null, moved = false, swallowClick = false;
+    /* ── tracing: hold one star and run through the rest without
+          lifting. Every star the finger passes becomes the new end of
+          the line, and any real edge it crosses gets drawn, so a whole
+          constellation can be done in a single stroke. ── */
+    var moved = false, swallowClick = false, last = null;
 
     function pct(e) {
       var r = panel.getBoundingClientRect();
       return [(e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100];
     }
-    function endDrag() {
-      dragFrom = null;
+    /* Which stars did the stroke just sweep across? Testing only the
+       latest pointer position misses stars when the finger moves fast
+       between samples, so this measures each star against the whole
+       segment travelled and returns them in the order they were met. */
+    function starsCrossed(from, to) {
+      var r = panel.getBoundingClientRect();
+      function px(pt) { return [pt[0] / 100 * r.width, pt[1] / 100 * r.height]; }
+      var a = px(from), b = px(to);
+      var vx = b[0] - a[0], vy = b[1] - a[1];
+      var len2 = vx * vx + vy * vy;
+      var hits = [];
+      sky.stars.forEach(function (star, i) {
+        var c = px(star);
+        var t = len2 ? ((c[0] - a[0]) * vx + (c[1] - a[1]) * vy) / len2 : 0;
+        t = Math.max(0, Math.min(1, t));
+        var dx = a[0] + vx * t - c[0], dy = a[1] + vy * t - c[1];
+        if (Math.sqrt(dx * dx + dy * dy) <= 18) hits.push({ i: i, t: t });
+      });
+      hits.sort(function (x, y) { return x.t - y.t; });
+      return hits.map(function (h) { return h.i; });
+    }
+    function endTrace() {
+      chain = null;
+      last = null;
       dragLine.classList.remove('active');
+      paint();
     }
 
     starEls.forEach(function (el, i) {
@@ -210,42 +233,48 @@
 
       el.addEventListener('pointerdown', function (e) {
         if (card.classList.contains('lit')) return;
-        dragFrom = i;
+        chain = i;
         moved = false;
-        // capture so the pointer keeps reporting to this star as it leaves it
+        last = sky.stars[i];
+        paint();
+        // capture, so the pointer keeps reporting here once it leaves the star
         try { el.setPointerCapture(e.pointerId); } catch (err) {}
       });
 
       el.addEventListener('pointermove', function (e) {
-        if (dragFrom === null) return;
+        if (chain === null) return;
         var p = pct(e);
-        var from = sky.stars[dragFrom];
+        var from = sky.stars[chain];
         var dx = p[0] - from[0], dy = p[1] - from[1];
         if (!moved && Math.sqrt(dx * dx + dy * dy) < 2) return;   // ignore a wobble
         moved = true;
-        picked = dragFrom;
-        paint();
-        dragLine.setAttribute('x1', from[0]);
-        dragLine.setAttribute('y1', from[1]);
+
+        var crossed = starsCrossed(last, p);
+        for (var k = 0; k < crossed.length; k++) {
+          var j = crossed[k];
+          if (j === chain) continue;
+          connect(chain, j, true);   // quiet — no nudge while she is tracing
+          chain = j;                 // the line carries on from the star she reached
+          if (card.classList.contains('lit')) { picked = null; last = p; endTrace(); return; }
+        }
+        last = p;
+
+        var f = sky.stars[chain];
+        dragLine.setAttribute('x1', f[0]);
+        dragLine.setAttribute('y1', f[1]);
         dragLine.setAttribute('x2', p[0]);
         dragLine.setAttribute('y2', p[1]);
         dragLine.classList.add('active');
+        paint();
       });
 
-      el.addEventListener('pointerup', function (e) {
-        if (dragFrom === null) return;
-        var from = dragFrom;
-        endDrag();
-        if (!moved) return;                 // a tap, not a drag — let click handle it
-        swallowClick = true;                // a drag already decided things
-        var under = document.elementFromPoint(e.clientX, e.clientY);
-        var target = under && under.closest ? under.closest('.star') : null;
-        var j = starEls.indexOf(target);
-        if (j === -1 || j === from) { picked = null; paint(); return; }
-        if (!connect(from, j)) { picked = null; paint(); }
+      el.addEventListener('pointerup', function () {
+        if (chain === null) return;
+        if (moved) { swallowClick = true; picked = null; }
+        endTrace();
       });
 
-      el.addEventListener('pointercancel', function () { endDrag(); picked = null; paint(); });
+      el.addEventListener('pointercancel', function () { picked = null; endTrace(); });
     });
 
     if (done[si]) {
