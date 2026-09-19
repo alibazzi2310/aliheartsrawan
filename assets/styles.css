@@ -1244,6 +1244,18 @@ body.night .hero .subtitle { color: var(--soft-purple); }
   transform: translateY(8px);
   transition: opacity .9s ease .35s, transform .9s ease .35s;
 }
+/* the plain reading of each constellation, between its name and its line */
+.sky-tag {
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--soft-purple);
+  text-align: center;
+  opacity: 0;
+  transition: opacity .8s ease .28s;
+}
+.sky-card.lit .sky-tag { opacity: 1; }
+.sky-card.no-anim .sky-tag { transition: none; }
+
 .sky-card.lit .sky-name { opacity: 1; }
 .sky-card.lit .sky-dream { opacity: 1; transform: none; }
 .sky-card.no-anim .sky-name,

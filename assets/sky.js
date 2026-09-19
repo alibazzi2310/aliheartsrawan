@@ -22,24 +22,28 @@
   var SKIES = [
     {
       name: 'The Home',
+      tag: 'Our Dream Home',
       dream: 'a home of our own, and you filling it with candlelight',
       stars: [[30, 72], [70, 72], [70, 50], [30, 50], [50, 28]],
       edges: [[0, 1], [1, 2], [2, 4], [4, 3], [3, 0]]
     },
     {
       name: 'The Wanderer',
+      tag: 'Our Dream to Travel the World',
       dream: 'getting lost together, somewhere neither of us has been',
       stars: [[16, 64], [34, 40], [54, 58], [72, 34], [86, 54]],
       edges: [[0, 1], [1, 2], [2, 3], [3, 4]]
     },
     {
       name: 'The Cradle',
+      tag: 'Our Dream to Start a Family',
       dream: 'small feet in the hallway, and your eyes looking back at me',
       stars: [[22, 38], [31, 62], [50, 72], [69, 62], [78, 38]],
       edges: [[0, 1], [1, 2], [2, 3], [3, 4]]
     },
     {
       name: 'The Atelier',
+      tag: 'Our Dream to Start a Fashion Brand',
       dream: 'your name on the label, and me in the front row',
       stars: [[50, 26], [38, 46], [28, 74], [72, 74], [62, 46]],
       edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]]
@@ -100,6 +104,7 @@
         '<div class="sky-stars"></div>' +
       '</div>' +
       '<p class="sky-name">' + sky.name + '</p>' +
+      '<p class="sky-tag">' + sky.tag + '</p>' +
       '<p class="sky-dream">' + sky.dream + '</p>';
     host.appendChild(card);
     if (revealer) revealer.observe(card); else card.classList.add('visible');
