@@ -1100,3 +1100,161 @@ body.locked { overflow: hidden; }
 .countdown.arrived .cd-units,
 .countdown.arrived .cd-date { display: none; }
 .countdown.arrived .cd-arrived { display: block; }
+
+/* ═══════════════════════════════════════════
+   THE NIGHT SKY  (letters/no-4.html)
+   The one dark page in the box. The shared tokens
+   are redefined on body.night, so the letter card,
+   the pips and the vault all come along.
+   ═══════════════════════════════════════════ */
+
+body.night {
+  --paper: #241b47;
+  --ink: #ded4f2;
+  --deep-purple: #f0e6ff;
+  --soft-purple: #b9a6dd;
+  --muted: #8a7ab0;
+  --edge: rgba(185, 166, 221, .26);
+  color: var(--ink);
+  background: radial-gradient(120% 80% at 50% 0%, #2d2159 0%, #1b1440 45%, #120d2e 100%);
+  background-attachment: fixed;
+}
+body.night .letter { box-shadow: 0 24px 60px rgba(0, 0, 0, .45); }
+body.night .letter::before { border-color: rgba(185, 166, 221, .3); }
+body.night .divider { color: #6f5fa0; }
+body.night .scroll-hint,
+body.night .letter-no,
+body.night .hero .subtitle { color: var(--soft-purple); }
+
+/* twinkling stars, for data-ambient="stars" */
+.twinkle {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  from { opacity: .12; transform: scale(.7); }
+  to   { opacity: .9;  transform: scale(1); }
+}
+
+/* ── a constellation ── */
+.sky-intro {
+  max-width: 460px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
+  font-style: italic;
+  line-height: 1.9;
+  color: var(--ink);
+}
+.sky-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: clamp(3rem, 8vh, 4.5rem);
+}
+.sky-panel {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(60, 44, 110, .5), rgba(24, 17, 56, .5));
+  overflow: hidden;
+}
+.sky-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sky-line {
+  stroke: #cdb4e8;
+  stroke-width: .5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.sky-line.drawn { opacity: .75; }
+.sky-card.lit .sky-line {
+  opacity: 1;
+  stroke: #f2d9ff;
+  filter: drop-shadow(0 0 4px rgba(226, 190, 255, .8));
+}
+
+.sky-stars { position: absolute; inset: 0; }
+.star {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;     /* centre the hit area on the point */
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.star::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: #fff6ff;
+  box-shadow: 0 0 8px 2px rgba(226, 190, 255, .55);
+  transition: transform .25s cubic-bezier(.3, 1.5, .5, 1), box-shadow .3s ease;
+}
+.star:hover::before { transform: scale(1.35); }
+.star.picked::before {
+  transform: scale(1.7);
+  box-shadow: 0 0 14px 5px rgba(244, 198, 221, .8);
+}
+.star:focus-visible { outline: 2px solid #e8d5ff; outline-offset: 0; border-radius: 50%; }
+.star:disabled { cursor: default; }
+.sky-card.lit .star::before {
+  transform: scale(1.25);
+  box-shadow: 0 0 12px 4px rgba(242, 217, 255, .75);
+}
+.star.nope::before { animation: nope .4s ease; }
+@keyframes nope {
+  0%, 100% { transform: translateX(0) scale(1); }
+  25% { transform: translateX(-3px) scale(1.1); }
+  75% { transform: translateX(3px) scale(1.1); }
+}
+
+.sky-name {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity .7s ease .2s;
+}
+.sky-dream {
+  max-width: 360px;
+  text-align: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.5rem, 5vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--deep-purple);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .9s ease .35s, transform .9s ease .35s;
+}
+.sky-card.lit .sky-name { opacity: 1; }
+.sky-card.lit .sky-dream { opacity: 1; transform: none; }
+.sky-card.no-anim .sky-name,
+.sky-card.no-anim .sky-dream { transition: none; }
+
+body.night .vault-locked { background: rgba(36, 27, 71, .65); border-color: var(--edge); }
+body.night .pip { border-color: var(--soft-purple); }
+body.night .pip.lit { background: radial-gradient(circle at 35% 32%, #f4d9ff, #b98fe0 70%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .twinkle { animation: none; opacity: .5; }
+  .sky-line, .sky-name, .sky-dream, .star::before { transition: none; }
+  .star.nope::before { animation: none; }
+}

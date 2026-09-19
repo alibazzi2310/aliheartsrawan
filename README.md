@@ -26,7 +26,10 @@ letters/your-name.html   Letter No. I — "Your Name"
 letters/no-2.html        Letter No. II — the bouquet: poem, photo and vlog
 letters/no-3.html        Letter No. III — "My Favourite Puzzle": three photo
                          puzzles that unlock a poem
+letters/no-4.html        Letter No. IV — "Things We Haven't Done Yet": a night
+                         sky of constellations that unlock a poem
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
+assets/sky.js            the constellations, loaded only by Letter No. IV
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
 manifest.webmanifest     lets her add the site to her phone's home screen
@@ -74,6 +77,22 @@ To change it: swap the files the `data-src` attributes point at, and rewrite
 the `.puzzle-caption` under each board. The scramble reshuffles until at
 least seven of the nine pieces are out of place, so a board is never dealt
 half solved.
+
+## The constellation letter
+
+`letters/no-4.html` is the one dark page in the box. `body.night` redefines the
+shared colour tokens, so the letter card, the pips and the sealed vault all
+follow without any page-specific styling, and `data-ambient="stars"` swaps the
+drifting hearts for a field of twinkling stars.
+
+The constellations live at the top of `assets/sky.js`: each has a `name`, a
+`dream`, `stars` as `[x, y]` percentages of the panel, and `edges` joining them
+by index. Tapping two stars draws an edge if the pair belongs to that
+constellation; drawing every edge lights it up and reveals its dream.
+
+Note that `sky.js` builds its cards after `app.js` has already collected the
+page's `.reveal` elements, so it runs its own observer to reveal them. Anything
+else that creates `.reveal` elements at runtime needs to do the same.
 
 ## Adding a photo or a video to a letter
 

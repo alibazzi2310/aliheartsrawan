@@ -65,6 +65,22 @@
       return;
     }
 
+    if (ambient === 'stars') {
+      var starCount = small ? 60 : 110;
+      for (var st = 0; st < starCount; st++) {
+        var dot = document.createElement('span');
+        dot.className = 'twinkle';
+        var size = (Math.random() < 0.85 ? 1 : 2) + Math.random();
+        dot.style.width = dot.style.height = size.toFixed(1) + 'px';
+        dot.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+        dot.style.top = (Math.random() * 100).toFixed(2) + 'vh';
+        dot.style.animationDuration = (1.8 + Math.random() * 3.4).toFixed(1) + 's';
+        dot.style.animationDelay = (-Math.random() * 5).toFixed(1) + 's';
+        container.appendChild(dot);
+      }
+      return;
+    }
+
     var symbols = ['💜', '💗', '🩷', '✨', '🌸', '💕'];
     var count = small ? 10 : 18;
     var base = small ? 0.5 : 0.7;
