@@ -11,8 +11,8 @@
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* A letter can ask for a different ambience with data-ambient on <body>.
-     Default is hearts; the flower letters use petals, the night sky stars,
-     and the sea bubbles. */
+     Default is hearts; the flower letters use petals, and the night
+     letters use stars. */
   var ambient = document.body.getAttribute('data-ambient') || 'hearts';
 
   var PETAL_PATH = 'M12 1 C 18 7, 18 17, 12 23 C 6 17, 6 7, 12 1';
@@ -82,22 +82,6 @@
       return;
     }
 
-    if (ambient === 'bubbles') {
-      var bubbleCount = small ? 14 : 24;
-      for (var b = 0; b < bubbleCount; b++) {
-        var bubble = document.createElement('span');
-        bubble.className = 'bubble';
-        var bsize = (small ? 5 : 6) + Math.random() * (small ? 12 : 16);
-        bubble.style.width = bubble.style.height = bsize.toFixed(1) + 'px';
-        bubble.style.left = (Math.random() * 100).toFixed(2) + 'vw';
-        bubble.style.animationDuration = (12 + Math.random() * 14).toFixed(1) + 's, ' +
-                                         (2.4 + Math.random() * 2.2).toFixed(1) + 's';
-        bubble.style.animationDelay = (-Math.random() * 26).toFixed(1) + 's, 0s';
-        container.appendChild(bubble);
-      }
-      return;
-    }
-
     var symbols = ['💜', '💗', '🩷', '✨', '🌸', '💕'];
     var count = small ? 10 : 18;
     var base = small ? 0.5 : 0.7;
@@ -117,9 +101,7 @@
   /* ── a trail of hearts under her finger ───── */
   (function heartTrail() {
     if (reducedMotion) return;
-    var colors = ambient === 'bubbles'
-      ? ['#bfe6f2', '#e8f6fb', '#9fd3e6', '#f4c6dd']
-      : ['#d476ab', '#cdb4e8', '#9d7fc2', '#f4a6cd'];
+    var colors = ['#d476ab', '#cdb4e8', '#9d7fc2', '#f4a6cd'];
     var lastX = null, lastY = null, lastTime = 0;
 
     function drop(x, y) {

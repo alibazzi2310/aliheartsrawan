@@ -115,7 +115,7 @@ To make the lines light up as he reads, give each `.sea-line` a
 to it.
 
 `body.sea` redefines the shared colour tokens the same way `body.night` does,
-and `data-ambient="bubbles"` swaps the hearts for rising bubbles.
+and it shares the twinkling stars of Letter No. IV.
 
 ## Adding a photo or a video to a letter
 
