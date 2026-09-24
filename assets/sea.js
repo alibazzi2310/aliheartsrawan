@@ -1,8 +1,10 @@
 /* ═══════════════════════════════════════════
    For Rawan — Letter No. V, the sea
-   Plays Ali reading the letter, and lights up
-   each line as he reaches it. A line follows
-   along only if it has data-at="seconds".
+   Plays Ali reading the letter one line at a
+   time. Each .sea-line names its own clip in
+   data-src; they play in order, and the line
+   being read lights up. Tapping a line plays
+   from there.
    ═══════════════════════════════════════════ */
 
 (function () {
@@ -19,38 +21,91 @@
   ring.style.strokeDasharray = RING;
   ring.style.strokeDashoffset = RING;
 
+  /* a breath between lines, and a longer one between verses */
+  var PAUSE_LINE = 700;
+  var PAUSE_VERSE = 1400;
+
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* the lines that have a start time, in the order he reads them */
-  var lines = Array.prototype.slice.call(document.querySelectorAll('.sea-line[data-at]'))
-    .map(function (el) { return { el: el, at: parseFloat(el.getAttribute('data-at')) }; })
-    .filter(function (l) { return !isNaN(l.at); })
-    .sort(function (a, b) { return a.at - b.at; });
+  var lines = Array.prototype.slice.call(document.querySelectorAll('.sea-line[data-src]'))
+    .map(function (el) {
+      // a line opens a new verse when a divider sits right before it
+      var prev = el.previousElementSibling;
+      return { el: el, src: el.getAttribute('data-src'), newVerse: !!(prev && prev.classList.contains('ripple')) };
+    });
+  if (!lines.length) return;
+  document.body.classList.add('following');
+
+  var index = -1;       // the line loaded into the player
+  var started = false;  // has she pressed play yet
+  var waiting = null;   // the pause before the next line
   var current = null;
-  if (lines.length) document.body.classList.add('following');
 
-  function clock(s) {
-    s = Math.max(0, Math.floor(s));
-    return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
-  }
-
-  /* until the recording is in the repo, say so gently instead of a dead button */
+  /* until the recordings are in the repo, say so gently instead of a dead button */
   function unavailable() {
     voice.classList.add('voice-missing');
     button.disabled = true;
     sub.textContent = 'my voice is on its way ♡';
   }
-  audio.addEventListener('error', unavailable);
-  if (audio.error) unavailable();
 
-  function showLength() {
-    if (isFinite(audio.duration)) sub.textContent = 'in my voice · ' + clock(audio.duration);
+  function load(i) {
+    index = i;
+    audio.src = lines[i].src;
   }
-  audio.addEventListener('loadedmetadata', showLength);
-  if (audio.readyState >= 1) showLength();
+
+  function playLine(i) {
+    clearTimeout(waiting);
+    waiting = null;
+    started = true;
+    load(i);
+    setCurrent(lines[i]);
+    var p = audio.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+
+  function finish() {
+    clearTimeout(waiting);
+    waiting = null;
+    started = false;
+    voice.classList.remove('playing');
+    document.body.classList.remove('listening');
+    button.setAttribute('aria-label', 'Play Ali reading the letter');
+    setCurrent(null);
+    ring.style.strokeDashoffset = RING;
+    load(0);
+  }
+
+  function next() {
+    var n = index + 1;
+    if (n >= lines.length) { finish(); return; }
+    // keep the next line lit through the pause, so the page moves on with him
+    setCurrent(lines[n]);
+    waiting = setTimeout(function () { playLine(n); }, lines[n].newVerse ? PAUSE_VERSE : PAUSE_LINE);
+  }
+
+  // before she presses play, the first clip tells us whether the recordings exist
+  audio.addEventListener('error', function () {
+    if (!started) unavailable();
+    else next();          // a missing line is skipped rather than stopping the letter
+  });
+  load(0);
 
   button.addEventListener('click', function () {
-    if (audio.paused) audio.play(); else audio.pause();
+    if (waiting) {                       // paused in the breath between lines
+      clearTimeout(waiting);
+      waiting = null;
+      voice.classList.remove('playing');
+      button.setAttribute('aria-label', 'Play Ali reading the letter');
+      return;
+    }
+    if (!started) { playLine(0); return; }
+    if (audio.paused) {
+      // resuming after a pause that fell between lines: go on to the lit one
+      if (audio.ended || (current && current !== lines[index])) playLine(lines.indexOf(current));
+      else audio.play();
+    } else {
+      audio.pause();
+    }
   });
 
   audio.addEventListener('play', function () {
@@ -59,13 +114,18 @@
     button.setAttribute('aria-label', 'Pause');
   });
   audio.addEventListener('pause', function () {
+    if (waiting || audio.ended) return;  // the end of a line, or the gap after it, isn't a pause
     voice.classList.remove('playing');
     button.setAttribute('aria-label', 'Play Ali reading the letter');
   });
   audio.addEventListener('ended', function () {
-    document.body.classList.remove('listening');
-    setCurrent(null);
-    ring.style.strokeDashoffset = RING;
+    // stay looking "playing" through the breath before the next line
+    next();
+  });
+
+  audio.addEventListener('timeupdate', function () {
+    var part = isFinite(audio.duration) && audio.duration > 0 ? audio.currentTime / audio.duration : 0;
+    ring.style.strokeDashoffset = RING * (1 - (index + part) / lines.length);
   });
 
   /* ── following along ── */
@@ -89,27 +149,13 @@
     }
   }
 
-  audio.addEventListener('timeupdate', function () {
-    if (isFinite(audio.duration) && audio.duration > 0) {
-      ring.style.strokeDashoffset = RING * (1 - audio.currentTime / audio.duration);
-    }
-    if (!lines.length) return;
-    var found = null;
-    for (var i = 0; i < lines.length; i++) {
-      if (lines[i].at <= audio.currentTime + 0.05) found = lines[i];
-      else break;
-    }
-    setCurrent(found);
-  });
-
-  /* tapping a line jumps the recording to it */
-  lines.forEach(function (line) {
+  /* tapping a line plays it, and carries on from there */
+  lines.forEach(function (line, i) {
     line.el.classList.add('seekable');
     line.el.addEventListener('click', function () {
       if (voice.classList.contains('voice-missing')) return;
-      audio.currentTime = line.at;
       lastManualScroll = Date.now();
-      if (audio.paused) audio.play();
+      playLine(i);
     });
   });
 })();

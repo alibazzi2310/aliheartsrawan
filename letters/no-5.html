@@ -54,12 +54,11 @@
 
   <main class="letter-wrap" id="letter">
 
-    <!-- 🎙 HIS VOICE — the recording lives at assets/audio/no-5.m4a.
-         To follow along, give each .sea-line below a data-at="seconds"
-         for when that line starts in the recording. Lines without one
-         simply don't light up. -->
+    <!-- 🎙 HIS VOICE — one clip per line, in assets/audio/no-5/ as
+         01.m4a to 10.m4a. Each .sea-line below names its clip in data-src;
+         they play in order and the line being read lights up. -->
     <div class="voice" id="voice">
-      <audio id="voiceAudio" preload="metadata" src="../assets/audio/no-5.m4a"></audio>
+      <audio id="voiceAudio" preload="metadata"></audio>
       <button class="voice-play" type="button" aria-label="Play Ali reading the letter">
         <svg class="voice-ring" viewBox="0 0 48 48" aria-hidden="true">
           <circle class="ring-track" cx="24" cy="24" r="21"/>
@@ -76,12 +75,12 @@
     <article class="letter sea-letter">
 
       <!-- ✍️ THE LETTER — each line in Arabic, how it sounds, and what it means -->
-      <div class="sea-line salute reveal">
+      <div class="sea-line salute reveal" data-src="../assets/audio/no-5/01.m4a">
         <p class="ar" lang="ar" dir="rtl">رَوَان، يَا قَمَرِي،</p>
         <p class="tr">Rawan, ya &rsquo;amari,</p>
         <p class="en">Rawan, my moon,</p>
       </div>
-      <div class="sea-line reveal">
+      <div class="sea-line reveal" data-src="../assets/audio/no-5/02.m4a">
         <p class="ar" lang="ar" dir="rtl">إِنْتِي أَحْلَى شِي بْنَظَرِي.</p>
         <p class="tr">inti ahla shi b-nazari.</p>
         <p class="en">you&rsquo;re the most beautiful thing in my eyes.</p>
@@ -93,12 +92,12 @@
         <path class="ripple-wave" d="M90 9 C 98 3, 106 3, 114 9 S 130 15, 138 9"/>
       </svg>
 
-      <div class="sea-line reveal">
+      <div class="sea-line reveal" data-src="../assets/audio/no-5/03.m4a">
         <p class="ar" lang="ar" dir="rtl">مِتِل القَمَر عَالبَحْر،</p>
         <p class="tr">Mitil el-&rsquo;amar &rsquo;al-bahr,</p>
         <p class="en">Like the moon on the sea,</p>
       </div>
-      <div class="sea-line reveal">
+      <div class="sea-line reveal" data-src="../assets/audio/no-5/04.m4a">
         <p class="ar" lang="ar" dir="rtl">إِنْتِي بِتْنَوّْرِي عُمْرِي.</p>
         <p class="tr">inti bitnawwri &rsquo;umri.</p>
         <p class="en">you light up my life.</p>
@@ -110,12 +109,12 @@
         <path class="ripple-wave" d="M90 9 C 98 3, 106 3, 114 9 S 130 15, 138 9"/>
       </svg>
 
-      <div class="sea-line reveal">
+      <div class="sea-line reveal" data-src="../assets/audio/no-5/05.m4a">
         <p class="ar" lang="ar" dir="rtl">إِنْتِي إِلِي،</p>
         <p class="tr">Inti ili,</p>
         <p class="en">You are mine,</p>
       </div>
-      <div class="sea-line reveal">
+      <div class="sea-line reveal" data-src="../assets/audio/no-5/06.m4a">
         <p class="ar" lang="ar" dir="rtl">بِهَالدِّنْيَا وْبِالآخْرَة.</p>
         <p class="tr">bi-hal-dinye w bil-akhra.</p>
         <p class="en">in this life and the next.</p>
@@ -127,24 +126,24 @@
         <path class="ripple-wave" d="M90 9 C 98 3, 106 3, 114 9 S 130 15, 138 9"/>
       </svg>
 
-      <div class="sea-line reveal">
+      <div class="sea-line reveal" data-src="../assets/audio/no-5/07.m4a">
         <p class="ar" lang="ar" dir="rtl">يَا رُوحِي،</p>
         <p class="tr">Ya rouhi,</p>
         <p class="en">My soul,</p>
       </div>
-      <div class="sea-line reveal">
+      <div class="sea-line reveal" data-src="../assets/audio/no-5/08.m4a">
         <p class="ar" lang="ar" dir="rtl">قَلْبِي مَعِك وَيْن مَا تْرُوحِي.</p>
         <p class="tr">&rsquo;albi ma&rsquo;ik wen ma trouhi.</p>
         <p class="en">my heart is with you wherever you go.</p>
       </div>
 
-      <div class="sea-line finale reveal">
+      <div class="sea-line finale reveal" data-src="../assets/audio/no-5/09.m4a">
         <p class="ar" lang="ar" dir="rtl">بْحِبِّك… تِقْبُرِينِي.</p>
         <p class="tr">Bhebbik&hellip; ti&rsquo;burini.</p>
         <p class="en">I love you&hellip; I could never live a day without you.</p>
       </div>
 
-      <div class="sea-line sign reveal">
+      <div class="sea-line sign reveal" data-src="../assets/audio/no-5/10.m4a">
         <p class="ar" lang="ar" dir="rtl">حَبِيبِك، عَلِي</p>
         <p class="tr">Habibik, Ali</p>
         <p class="en">Your love, Ali</p>

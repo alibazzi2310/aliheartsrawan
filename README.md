@@ -106,13 +106,13 @@ with three parts: the Arabic with its vowel marks (`.ar`), how it sounds
 than through the handwriting effect, because splitting Arabic into single
 letters breaks the joins between them.
 
-The recording is `assets/audio/no-5.m4a` — a Voice Memo from an iPhone can go
-in as it is. Until that file exists, the player says the voice is on its way.
-
-To make the lines light up as he reads, give each `.sea-line` a
-`data-at="seconds"` for when that line starts in the recording, for example
-`data-at="12.5"`. Once lines have times, tapping one also jumps the recording
-to it.
+Ali reads it one line at a time. Each `.sea-line` names its own clip in
+`data-src` — `assets/audio/no-5/01.m4a` to `10.m4a`, in reading order — and the
+player plays them one after another, with a short breath between lines and a
+longer one between verses (wherever a `.ripple` divider sits). The line being
+read lights up, and tapping a line plays from there. A Voice Memo from an
+iPhone can go in as it is. Until the first clip exists, the player says the
+voice is on its way; a missing clip later on is skipped.
 
 Its title is in Arabic too: `.ar-title` sets it in Amiri, with `.title-gloss`
 underneath saying how it sounds and what it means. The card on the shelf does
