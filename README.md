@@ -28,8 +28,12 @@ letters/no-3.html        Letter No. III — "My Favourite Puzzle": three photo
                          puzzles that unlock a poem
 letters/no-4.html        Letter No. IV — "Our Dreams": a night sky of
                          constellations that unlock a poem
+letters/no-5.html        Letter No. V — "Wider Than the Sea": three months,
+                         in Lebanese Arabic, read aloud by Ali
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
+assets/sea.js            the voice player, loaded only by Letter No. V
+assets/audio/            recordings for letters that are read aloud
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
 manifest.webmanifest     lets her add the site to her phone's home screen
@@ -93,6 +97,25 @@ constellation; drawing every edge lights it up and reveals its dream.
 Note that `sky.js` builds its cards after `app.js` has already collected the
 page's `.reveal` elements, so it runs its own observer to reveal them. Anything
 else that creates `.reveal` elements at runtime needs to do the same.
+
+## The sea letter
+
+`letters/no-5.html` is written in Lebanese Arabic. Each line is a `.sea-line`
+with three parts: the Arabic with its vowel marks (`.ar`), how it sounds
+(`.tr`) and what it means (`.en`). The Arabic reveals as a whole line rather
+than through the handwriting effect, because splitting Arabic into single
+letters breaks the joins between them.
+
+The recording is `assets/audio/no-5.m4a` — a Voice Memo from an iPhone can go
+in as it is. Until that file exists, the player says the voice is on its way.
+
+To make the lines light up as he reads, give each `.sea-line` a
+`data-at="seconds"` for when that line starts in the recording, for example
+`data-at="12.5"`. Once lines have times, tapping one also jumps the recording
+to it.
+
+`body.sea` redefines the shared colour tokens the same way `body.night` does,
+and `data-ambient="bubbles"` swaps the hearts for rising bubbles.
 
 ## Adding a photo or a video to a letter
 
