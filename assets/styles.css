@@ -221,6 +221,19 @@ body.locked { overflow: hidden; }
   color: var(--deep-purple);
   line-height: 1.2;
 }
+.card-title-ar {
+  font-family: 'Amiri', serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 6.4vw, 2.4rem);
+  /* room for the vowel marks */
+  line-height: 1.7;
+}
+.card-gloss {
+  margin-top: -.6rem;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--soft-purple);
+}
 .card-date {
   font-family: 'Quicksand', sans-serif;
   font-size: .72rem;
@@ -1315,6 +1328,32 @@ body.sea .hero h1 {
   background: linear-gradient(120deg, #fbf3ea, #f3d3a8 45%, #e8a9c0);
   -webkit-background-clip: text;
   background-clip: text;
+}
+body.sea .hero h1.ar-title {
+  font-family: 'Amiri', serif;
+  font-weight: 700;
+  font-size: clamp(4.4rem, 17vw, 6.8rem);
+  /* room above and below for the vowel marks */
+  line-height: 1.7;
+  margin-top: 0;
+  padding: 0 .2em;
+  background: linear-gradient(120deg, #fbf3ea, #f3d3a8 50%, #e8a9c0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(247, 227, 191, .22));
+}
+.title-gloss {
+  margin-top: -.4rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(.8rem, 2.4vw, .9rem);
+  letter-spacing: .12em;
+  color: var(--soft-purple);
+}
+.title-gloss em {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3em;
+  letter-spacing: .02em;
+  color: var(--moon);
 }
 body.sea .closing .adore {
   background: linear-gradient(120deg, #f3d3a8, #fbf3ea, #e8a9c0);

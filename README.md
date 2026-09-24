@@ -28,8 +28,8 @@ letters/no-3.html        Letter No. III — "My Favourite Puzzle": three photo
                          puzzles that unlock a poem
 letters/no-4.html        Letter No. IV — "Our Dreams": a night sky of
                          constellations that unlock a poem
-letters/no-5.html        Letter No. V — "Wider Than the Sea": three months,
-                         in Lebanese Arabic, read aloud by Ali
+letters/no-5.html        Letter No. V — "قَمَرِي" (my moon): three months, in
+                         Lebanese Arabic, read aloud by Ali
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
 assets/sea.js            the voice player, loaded only by Letter No. V
@@ -113,6 +113,10 @@ To make the lines light up as he reads, give each `.sea-line` a
 `data-at="seconds"` for when that line starts in the recording, for example
 `data-at="12.5"`. Once lines have times, tapping one also jumps the recording
 to it.
+
+Its title is in Arabic too: `.ar-title` sets it in Amiri, with `.title-gloss`
+underneath saying how it sounds and what it means. The card on the shelf does
+the same with `.card-title-ar` and `.card-gloss`.
 
 `body.sea` redefines the shared colour tokens the same way `body.night` does,
 and it shares the twinkling stars of Letter No. IV.
