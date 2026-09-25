@@ -28,8 +28,12 @@ letters/no-3.html        Letter No. III — "My Favourite Puzzle": three photo
                          puzzles that unlock a poem
 letters/no-4.html        Letter No. IV — "Our Dreams": a night sky of
                          constellations that unlock a poem
+letters/no-5.html        Letter No. V — "قَمَرِي" (my moon): three months, in
+                         Lebanese Arabic, read aloud by Ali
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
+assets/sea.js            the voice player, loaded only by Letter No. V
+assets/audio/            recordings for letters that are read aloud
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
 manifest.webmanifest     lets her add the site to her phone's home screen
@@ -93,6 +97,29 @@ constellation; drawing every edge lights it up and reveals its dream.
 Note that `sky.js` builds its cards after `app.js` has already collected the
 page's `.reveal` elements, so it runs its own observer to reveal them. Anything
 else that creates `.reveal` elements at runtime needs to do the same.
+
+## The sea letter
+
+`letters/no-5.html` is written in Lebanese Arabic. Each line is a `.sea-line`
+with three parts: the Arabic with its vowel marks (`.ar`), how it sounds
+(`.tr`) and what it means (`.en`). The Arabic reveals as a whole line rather
+than through the handwriting effect, because splitting Arabic into single
+letters breaks the joins between them.
+
+Ali reads it one line at a time. Each `.sea-line` names its own clip in
+`data-src` — `assets/audio/no-5/01.m4a` to `10.m4a`, in reading order — and the
+player plays them one after another, with a short breath between lines and a
+longer one between verses (wherever a `.ripple` divider sits). The line being
+read lights up, and tapping a line plays from there. A Voice Memo from an
+iPhone can go in as it is. Until the first clip exists, the player says the
+voice is on its way; a missing clip later on is skipped.
+
+Its title is in Arabic too: `.ar-title` sets it in Amiri, with `.title-gloss`
+underneath saying how it sounds and what it means. The card on the shelf does
+the same with `.card-title-ar` and `.card-gloss`.
+
+`body.sea` redefines the shared colour tokens the same way `body.night` does,
+and it shares the twinkling stars of Letter No. IV.
 
 ## Adding a photo or a video to a letter
 

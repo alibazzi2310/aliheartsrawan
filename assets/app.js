@@ -11,7 +11,8 @@
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* A letter can ask for a different ambience with data-ambient on <body>.
-     Default is hearts; the flower letters use petals. */
+     Default is hearts; the flower letters use petals, and the night
+     letters use stars. */
   var ambient = document.body.getAttribute('data-ambient') || 'hearts';
 
   var PETAL_PATH = 'M12 1 C 18 7, 18 17, 12 23 C 6 17, 6 7, 12 1';
