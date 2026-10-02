@@ -34,11 +34,36 @@ assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
 assets/sea.js            the voice player, loaded only by Letter No. V
 assets/audio/            recordings for letters that are read aloud
+assets/gate.js          the password screen, loaded first by every page
 assets/styles.css        all styling, shared by every page
 assets/app.js            all behaviour, shared by every page
 manifest.webmanifest     lets her add the site to her phone's home screen
 assets/icon-*.png        the home-screen icons
 ```
+
+## The password screen
+
+Every page loads `assets/gate.js` in its `<head>`. Until the password has been
+typed once on a device, the page is hidden behind a sealed card asking for it.
+After that the browser remembers (in `localStorage`), so she won't be asked
+again on that phone or computer unless the site data is cleared. A phone's
+home-screen app keeps its own storage, so it asks once there too.
+
+The password itself isn't in the code, only its SHA-256 hash. To change it,
+run `printf '%s' 'new password' | sha256sum` and paste the result into `HASH`
+at the top of `assets/gate.js`. Devices that already logged in will be asked
+for the new one.
+
+Any new letter needs the same line in its `<head>`, right after the
+stylesheet (copying an existing letter brings it along):
+
+```html
+<script src="../assets/gate.js"></script>
+```
+
+Keep in mind this is a curtain, not a lock: the repo is public, so the letters,
+photos and recordings can still be read on GitHub or opened by their direct
+URLs. It keeps out anyone who just has the link.
 
 ## Adding the next letter
 
