@@ -161,14 +161,15 @@ screen the issue is a magazine held up in front of you.
 The pages, each a `<section class="sheet">`:
 
 1. **The cover** — her name as the masthead over a full-screen photo.
-2. **Page 02, Cover Story** — her photo, a line about her and Fardos Designs,
-   her fashion brand, and a pull quote.
-3. **Pages 03–04, The Edit** — Ali's photo, then how much he loves her written
+2. **Pages 02–03, Cover Story** — six of her looks, set out like a shoot, with
+   a line about her and Fardos Designs, her fashion brand.
+3. **Pages 04–05, The Edit** — Ali's photo, then how much he loves her written
    up like a magazine's "what we're loving this season" page, ending on his
    front-row ticket to her show.
-4. **Pages 05–06, The Shoot** — their first date, written up as a fashion
+4. **Pages 06–07, The Shoot** — their first date, written up as a fashion
    editorial: four photos, each with a caption and what they're wearing.
-5. **Page 07, The Label** — a woven Fardos Designs label.
+5. **Page 08, The Label** — a pull quote about her, then a woven Fardos
+   Designs label.
 6. **The back cover** — "I love you."
 
 To add a page, copy a `.sheet` and change its folio number; the counter under
@@ -183,9 +184,9 @@ and the headings are set in Bodoni Moda.
 
 The photos go in `assets/photos/`. The cover photo is in `.cover-photo`; if
 it's swapped and her face moves, nudge `object-position` on `.cover-photo img`.
-Page 02's photo goes inside its `.page-photo` — remove the `is-placeholder`
-class once it's in. On the shoot pages, each `.shot` can set which part of its
-photo stays in view with `--pos`.
+Her looks are `look-1.jpg` to `look-6.jpg` and the first date is
+`shoot-1.jpg` to `shoot-4.jpg`; on those pages each `.shot` can set which part
+of its photo stays in view with `--pos`.
 
 ## Adding a photo or a video to a letter
 

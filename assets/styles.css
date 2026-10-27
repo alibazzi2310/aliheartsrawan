@@ -1907,18 +1907,6 @@ body.booked { overflow: hidden; }
   object-fit: cover;
   object-position: 50% 38%;
 }
-.page-photo.is-placeholder {
-  background: linear-gradient(160deg, #f3e4ea, #e9dcef);
-  outline: 1px dashed var(--rose);
-  outline-offset: -10px;
-}
-.page-photo .media-note {
-  font-family: 'Quicksand', sans-serif;
-  font-size: .7rem;
-  letter-spacing: .26em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 .page-dek {
   font-style: italic;
   font-size: clamp(1.15rem, 3.4vw, 1.3rem);
@@ -2083,14 +2071,25 @@ body.booked { overflow: hidden; }
   margin: 0;
 }
 .shot.lead { flex: 1 1 0; min-height: 17rem; }
+/* Looks laid out in rows: each row is a track for the photos and one for
+   their captions, which every look shares, so the photos in a row line up
+   however long their captions run. */
 .shoot {
   flex: 1 1 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: minmax(16rem, 1fr) minmax(15rem, 1fr);
+  grid-template-rows: minmax(10rem, 1fr) auto minmax(10rem, 1fr) auto;
   gap: 1.2rem .8rem;
 }
+.shoot > .shot {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  row-gap: 0;
+}
 .shot.wide { grid-column: 1 / -1; }
+/* two looks side by side, under a page's heading */
+.shoot.pair { grid-template-rows: minmax(12rem, 1fr) auto; }
 .shot-photo {
   position: relative;
   flex: 1 1 0;
@@ -2109,6 +2108,8 @@ body.booked { overflow: hidden; }
   flex: none;
   display: grid;
   grid-template-columns: auto 1fr;
+  /* a short caption sits at the top of its row, not spread through it */
+  align-content: start;
   column-gap: .5rem;
   margin-top: .5rem;
 }
@@ -2137,6 +2138,7 @@ body.booked { overflow: hidden; }
 
 /* ── her brand, on the label ── */
 .label-page { text-align: center; }
+.label-page .pull-quote { margin: 0 0 2.2rem; }
 .woven-label {
   position: relative;
   max-width: 290px;
