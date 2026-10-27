@@ -83,8 +83,11 @@
     </section>
 
     <!-- 📸 PAGES 02–03 — HER: six of her looks, written up like the
-         first-date shoot. --pos sets which part of each photo stays in view;
-         the captions are drafts. -->
+         first-date shoot. Each look is zoomed and placed so she stands the
+         same height in every frame. --head and --feet are how far down the
+         photo the top of her head and her feet are, --x is how far across
+         her middle is, and --ratio is the photo's height over its width.
+         The captions are drafts. -->
     <section class="sheet" aria-label="Page 2, Cover Story">
       <div class="face page">
         <p class="folio"><span>Rawan</span><span>Cover Story</span><span>02</span></p>
@@ -99,7 +102,7 @@
           <div><dt>Known for</dt><dd>making it look easy</dd></div>
         </dl>
         <div class="shoot pair">
-          <figure class="shot" style="--pos: 50% 45%;">
+          <figure class="shot posed" style="--head: .19; --feet: .92; --x: .37; --ratio: 1.778;">
             <div class="shot-photo">
               <img src="../assets/photos/look-1.jpg" width="1000" height="1778"
                    alt="Rawan taking a mirror selfie in a high-necked, ruched chocolate-brown maxi dress and taupe hijab, holding a small taupe top-handle bag.">
@@ -111,7 +114,7 @@
             </figcaption>
           </figure>
 
-          <figure class="shot" style="--pos: 50% 40%;">
+          <figure class="shot posed" style="--head: .255; --feet: .985; --x: .48; --ratio: 1.783;">
             <div class="shot-photo">
               <img src="../assets/photos/look-2.jpg" width="1000" height="1783"
                    alt="Rawan leaning against a grey marble wall in a black high-necked top with wide sleeves and a side slit, light wide-leg jeans and a taupe hijab, smiling as she looks away.">
@@ -130,7 +133,7 @@
       <div class="face page">
         <p class="folio"><span>Rawan</span><span>Cover Story</span><span>03</span></p>
         <div class="shoot">
-          <figure class="shot" style="--pos: 50% 50%;">
+          <figure class="shot posed" style="--head: .24; --feet: .935; --x: .5; --ratio: 1.778;">
             <div class="shot-photo">
               <img src="../assets/photos/look-3.jpg" width="1000" height="1778"
                    alt="Rawan taking a mirror selfie in an open white shirt over a white top, dark wide-leg jeans with a brown belt, a camel hijab and white mesh flats, holding a cognac mini bag.">
@@ -142,7 +145,7 @@
             </figcaption>
           </figure>
 
-          <figure class="shot" style="--pos: 42% 55%;">
+          <figure class="shot posed" style="--head: .16; --feet: .97; --x: .44; --ratio: 1.333;">
             <div class="shot-photo">
               <img src="../assets/photos/look-4.jpg" width="1000" height="1333"
                    alt="Rawan taking a mirror selfie in a brown and white striped top, light jeans and a chocolate hijab, carrying a woven brown tote.">
@@ -154,7 +157,7 @@
             </figcaption>
           </figure>
 
-          <figure class="shot" style="--pos: 45% 50%;">
+          <figure class="shot posed" style="--head: .25; --feet: .98; --x: .47; --ratio: 1.333;">
             <div class="shot-photo">
               <img src="../assets/photos/look-5.jpg" width="1000" height="1333"
                    alt="Rawan taking a mirror selfie in a sewing studio, in a belted short cream trench, black wide-leg trousers and a black hijab, with dress forms and sewing machines behind her.">
@@ -166,7 +169,7 @@
             </figcaption>
           </figure>
 
-          <figure class="shot" style="--pos: 50% 30%;">
+          <figure class="shot posed" style="--head: .13; --feet: .865; --x: .46; --ratio: 1.777;">
             <div class="shot-photo">
               <img src="../assets/photos/look-6.jpg" width="1000" height="1777"
                    alt="Rawan taking a mirror selfie in a long belted beige trench with gingham cuffs, black wide-leg trousers and a black hijab, holding a small black chain bag.">
@@ -182,23 +185,25 @@
     </section>
 
     <!-- 💌 PAGES 04–05 — ALI. How much he loves her, written up the way a
-         magazine writes up the things its editors are loving this season. -->
+         magazine writes up the things its editors are loving this season.
+         His photo fills page 04 like the cover; to keep his face in view if
+         it's swapped, nudge object-position on .bleed-photo img. -->
     <section class="sheet" aria-label="Page 4, The Edit">
-      <div class="face page">
-        <p class="folio"><span>Rawan</span><span>The Edit</span><span>04</span></p>
-        <figure class="page-photo">
+      <div class="face page full-bleed">
+        <figure class="bleed-photo">
           <img src="../assets/photos/ali.jpg" width="1000" height="1777"
                alt="Ali in a fitted plum T-shirt and a silver bracelet, kissing a laughing toddler in a denim jacket on the cheek.">
         </figure>
-        <dl class="credits on-ali">
-          <div><dt>On Ali</dt><dd>plum tee, silver bracelet, his own curls</dd></div>
-        </dl>
-        <p class="kicker">The Edit</p>
-        <h2 class="mag-title">What Ali&rsquo;s Loving This Season</h2>
-        <p class="page-dek">
-          Every season, the editors pick their favourite things.
-          This season, the editor only picked one.
-        </p>
+        <p class="folio"><span>Rawan</span><span>The Edit</span><span>04</span></p>
+        <div class="bleed-words">
+          <p class="kicker">The Edit</p>
+          <h2 class="mag-title">What Ali&rsquo;s Loving This Season</h2>
+          <p class="page-dek">
+            Every season, the editors pick their favourite things.
+            This season, the editor only picked one.
+          </p>
+          <p class="bleed-credit"><span>On Ali</span>plum tee, silver bracelet, his own curls</p>
+        </div>
       </div>
     </section>
 

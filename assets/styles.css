@@ -1859,8 +1859,8 @@ body.booked { overflow: hidden; }
 }
 
 /* ── a page inside ──
-   Each page is a column: the running line at the top, then the photo,
-   which stretches to fill whatever room the words leave. */
+   Each page is a column: the running line at the top, then the photos,
+   which stretch to fill whatever room the words leave. */
 .page {
   display: flex;
   flex-direction: column;
@@ -1890,29 +1890,59 @@ body.booked { overflow: hidden; }
 .folio span:last-child { font-family: 'Bodoni Moda', serif; font-size: .85rem; letter-spacing: 0; color: var(--ink); }
 /* words that sit in the middle of an otherwise empty page */
 .page-middle { margin-block: auto; padding-top: .6rem; }
-.page-photo {
-  position: relative;
-  flex: 1 1 0;
-  min-height: 13rem;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  margin: 0 0 1.2rem;
-}
-.page-photo img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 38%;
-}
 .page-dek {
   font-style: italic;
   font-size: clamp(1.15rem, 3.4vw, 1.3rem);
   line-height: 1.45;
   margin: 0 0 1.2rem;
 }
+
+/* a page whose photo fills it, like the cover, with the words in white
+   over a shade at the foot */
+.page.full-bleed {
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  background: var(--cover);
+}
+.is-book .face.full-bleed { background: var(--cover); overflow: hidden; }
+.full-bleed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(26, 16, 26, .45) 0%, rgba(26, 16, 26, 0) 16%,
+    rgba(26, 16, 26, 0) 42%, rgba(26, 16, 26, .85) 100%);
+}
+.bleed-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  margin: 0;
+}
+.bleed-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* his face and the little one's, whichever way the screen crops */
+  object-position: 42% 28%;
+}
+.full-bleed .folio { color: rgba(255, 255, 255, .85); border-bottom-color: rgba(255, 255, 255, .6); }
+.full-bleed .folio span:last-child { color: #fff; }
+.bleed-words { margin-top: auto; }
+.full-bleed .kicker { color: #f6c4dc; }
+.full-bleed .page-dek { color: rgba(255, 255, 255, .92); }
+.bleed-credit {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .8);
+  border-top: 1px solid rgba(255, 255, 255, .45);
+  padding-top: .6rem;
+}
+.bleed-credit span { color: #f6c4dc; margin-right: .8em; }
 
 /* fashion credits, set like the small print beside an editorial photo */
 .credits {
@@ -1939,8 +1969,6 @@ body.booked { overflow: hidden; }
   font-size: 1.05rem;
   text-align: right;
 }
-/* under his photo, the credit sits close, like a caption */
-.credits.on-ali { margin: -.8rem 0 1.4rem; border-top: 0; }
 
 /* ── the pull quote ── */
 .pull-quote {
@@ -2104,6 +2132,24 @@ body.booked { overflow: hidden; }
   object-fit: cover;
   object-position: var(--pos, 50% 50%);
 }
+/* A posed look is zoomed and placed so she stands the same height in every
+   frame, with the top of her head on a line 5% down the frame and her feet
+   on a line 98% down (low, because in some photos her feet are almost at
+   the bottom edge), centred across. --head, --feet and
+   --x are fractions of the photo and --ratio is its height over its width.
+   If zooming only that far would leave the frame showing past the photo's
+   sides, it zooms in further, keeping her head on its line. */
+.shot.posed .shot-photo { container-type: size; }
+.shot.posed .shot-photo img {
+  --h: max(.93 * 100cqh / (var(--feet) - var(--head)), var(--ratio) * 100cqw);
+  inset: auto;
+  max-width: none;
+  width: calc(var(--h) / var(--ratio));
+  height: var(--h);
+  top: clamp(100cqh - var(--h), 5cqh - var(--head) * var(--h), 0px);
+  left: clamp(100cqw - var(--h) / var(--ratio), 50cqw - var(--x) * var(--h) / var(--ratio), 0px);
+}
+
 /* A focused shot keeps one point of its photo at the same place in the
    frame, whatever shape the frame takes on a given screen. --focus is how
    far down the photo that point is and --at is how far down the frame it
