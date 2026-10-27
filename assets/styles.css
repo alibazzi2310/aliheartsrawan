@@ -1651,6 +1651,8 @@ body.mag .back-link:hover { color: var(--plum); }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* keep her in the middle when a phone crops the sides */
+  object-position: 48% 30%;
 }
 .cover-photo.is-placeholder {
   background:
