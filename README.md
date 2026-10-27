@@ -35,8 +35,6 @@ letters/no-6.html        Letter No. VI — "Cover Story": RAWAN, Issue No. 1,
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
 assets/sea.js            the voice player, loaded only by Letter No. V
-assets/mag.js            the lookbook and its embargo, loaded only by
-                         Letter No. VI
 assets/audio/            recordings for letters that are read aloud
 assets/gate.js          the password screen, loaded first by every page
 assets/styles.css        all styling, shared by every page
@@ -152,22 +150,25 @@ and it shares the twinkling stars of Letter No. IV.
 
 ## The magazine letter
 
-`letters/no-6.html` is a fashion glossy called RAWAN, Issue No. 1: a cover, a
-contents page, a letter from the editor, a lookbook, a pull quote, a front-row
-review and a woven label for Fardos Designs, her fashion brand. `body.mag` redefines the shared
-colour tokens the same way `body.night` does, and the headings are set in
-Bodoni Moda.
+`letters/no-6.html` is a fashion glossy called RAWAN, Issue No. 1, laid out as
+a cover and three pages:
+
+1. **The cover** — her name as the masthead over a full-screen photo.
+2. **Page 02, Cover Story** — her photo, a line about her and Fardos Designs,
+   her fashion brand, and a pull quote.
+3. **Page 03, The Edit** — Ali's photo, and how much he loves her written up
+   like a magazine's "what we're loving this season" page, ending on his
+   front-row ticket to her show.
+4. **Page 04, The Label** — a woven Fardos Designs label.
+
+`body.mag` redefines the shared colour tokens the same way `body.night` does,
+and the headings are set in Bodoni Moda.
 
 The photos go in `assets/photos/`. The cover photo replaces the note inside
-`.cover-photo`, and each look's photo goes inside its `.look-photo`; in both
+`.cover-photo`, and a page's photo goes inside its `.page-photo`; in both
 cases, remove the `is-placeholder` class once the photo is in. Portrait photos
-work best: the cover fills the phone screen, and the looks are cut to 3:4.
-The cover shades its top and bottom so the white type reads over any photo.
-
-The lookbook swipes sideways, and `assets/mag.js` keeps the "01 / 04" count
-in step. The last look carries `data-embargo="2026-12-13"`: until that day it
-shows an "Embargoed" stamp and how many days are left, and after it, a note
-that the photo is on its way, for when the Toulbeh photo goes in.
+work best: the cover fills the phone screen and the pages cut to 4:5. The
+cover shades its top and bottom so the white type reads over any photo.
 
 ## Adding a photo or a video to a letter
 
