@@ -42,121 +42,135 @@
 
   <div class="floaties" aria-hidden="true"></div>
 
-  <!-- 📰 THE COVER — to change the photo, swap assets/photos/cover.jpg.
-       If her face moves, nudge object-position on .cover-photo img in
-       assets/styles.css. -->
-  <header class="cover">
-    <figure class="cover-photo">
-      <img src="../assets/photos/cover.jpg" width="1080" height="1620"
-           alt="Rawan in a brown blouse, black wide-leg trousers and a taupe hijab, holding a small taupe bag, in a warmly lit hallway.">
-    </figure>
+  <!-- 📖 THE ISSUE — each .sheet is one page. assets/mag.js stacks them and
+       turns them like a magazine: swipe, tap the edge of the page, or use
+       the arrows. A page that's taller than the screen scrolls inside
+       itself. Without JavaScript the pages simply sit one under another. -->
+  <div class="issue" id="issue">
 
-    <div class="cover-top">
-      <p class="cover-issue"><span>Issue No. 1</span><span>Letter No. VI</span><span>Winter 2026</span></p>
-      <h1 class="masthead">RAWAN</h1>
-    </div>
+    <!-- 📰 THE COVER — to change the photo, swap assets/photos/cover.jpg.
+         If her face moves, nudge object-position on .cover-photo img in
+         assets/styles.css. -->
+    <section class="sheet" aria-label="Cover">
+      <div class="face">
+        <header class="cover">
+          <figure class="cover-photo">
+            <img src="../assets/photos/cover.jpg" width="1080" height="1620"
+                 alt="Rawan in a brown blouse, black wide-leg trousers and a taupe hijab, holding a small taupe bag, in a warmly lit hallway.">
+          </figure>
 
-    <div class="cover-bottom">
-      <ul class="cover-lines">
-        <li><span class="kicker">Exclusive</span>The woman who stole Ali&rsquo;s heart &mdash; and is keeping it</li>
-        <li><span class="kicker">Fardos Designs</span>Meet the designer everyone will be wearing</li>
-        <li><span class="kicker">The Edit</span>Everything Ali is loving this season (it&rsquo;s her)</li>
-      </ul>
-      <div class="cover-foot">
-        <a class="open-issue" href="#her">open the issue <span class="arrow">↓</span></a>
-        <div class="barcode" aria-hidden="true">
-          <span class="bars"></span>
-          <span class="price">priceless</span>
-        </div>
+          <div class="cover-top">
+            <p class="cover-issue"><span>Issue No. 1</span><span>Letter No. VI</span><span>Winter 2026</span></p>
+            <h1 class="masthead">RAWAN</h1>
+          </div>
+
+          <div class="cover-bottom">
+            <ul class="cover-lines">
+              <li><span class="kicker">Exclusive</span>The woman who stole Ali&rsquo;s heart &mdash; and is keeping it</li>
+              <li><span class="kicker">Fardos Designs</span>Meet the designer everyone will be wearing</li>
+              <li><span class="kicker">The Edit</span>Everything Ali is loving this season (it&rsquo;s her)</li>
+            </ul>
+            <div class="cover-foot">
+              <button class="open-issue" type="button" data-turn="next">turn the page <span class="arrow">&rarr;</span></button>
+              <div class="barcode" aria-hidden="true">
+                <span class="bars"></span>
+                <span class="price">priceless</span>
+              </div>
+            </div>
+          </div>
+        </header>
       </div>
-    </div>
-  </header>
-
-  <main>
+    </section>
 
     <!-- 📸 PAGE 02 — HER. Put her photo in .page-photo and remove the
          is-placeholder class:
          <img src="../assets/photos/rawan.jpg" alt="Rawan, wearing …">
-         Portrait photos work best; the frame is cut to 4:5. -->
-    <section class="mag-page" id="her">
-      <p class="folio"><span>Rawan</span><span>Cover Story</span><span>02</span></p>
-      <figure class="page-photo is-placeholder reveal">
-        <span class="media-note">a photo of Rawan goes here</span>
-      </figure>
-
-      <div class="page-body">
-        <p class="kicker reveal">Cover Story</p>
-        <h2 class="mag-title reveal">Rawan</h2>
-        <p class="page-dek reveal">
+         The photo stretches to fill whatever room the words leave. -->
+    <section class="sheet" aria-label="Page 2, Cover Story">
+      <div class="face page">
+        <p class="folio"><span>Rawan</span><span>Cover Story</span><span>02</span></p>
+        <figure class="page-photo is-placeholder">
+          <span class="media-note">a photo of Rawan goes here</span>
+        </figure>
+        <p class="kicker">Cover Story</p>
+        <h2 class="mag-title">Rawan</h2>
+        <p class="page-dek">
           Designer, founder of Fardos Designs, and the reason this
           magazine exists.
         </p>
-        <dl class="credits reveal">
+        <dl class="credits">
           <div><dt>Wearing</dt><dd>to be written</dd></div>
           <div><dt>Styled by</dt><dd>herself, obviously</dd></div>
           <div><dt>Known for</dt><dd>making it look easy</dd></div>
         </dl>
-        <blockquote class="pull-quote reveal">
+        <blockquote class="pull-quote">
           <p>She doesn&rsquo;t follow trends. They follow her home.</p>
-          <cite>a source close to the cover star<span>(it was Ali)</span></cite>
+          <cite>a source close to the cover star (it was Ali)</cite>
         </blockquote>
       </div>
     </section>
 
-    <!-- 💌 PAGE 03 — ALI. How much he loves her, written up the way a
+    <!-- 💌 PAGES 03–04 — ALI. How much he loves her, written up the way a
          magazine writes up the things its editors are loving this season. -->
-    <section class="mag-page" id="ali">
-      <p class="folio"><span>Rawan</span><span>The Edit</span><span>03</span></p>
-      <figure class="page-photo reveal">
-        <img src="../assets/photos/ali.jpg" width="1000" height="1777"
-             alt="Ali in a fitted plum T-shirt and a silver bracelet, kissing a laughing toddler in a denim jacket on the cheek.">
-      </figure>
-      <dl class="credits on-ali reveal">
-        <div><dt>On Ali</dt><dd>plum tee, silver bracelet, his own curls</dd></div>
-      </dl>
-
-      <div class="page-body">
-        <p class="kicker reveal">The Edit</p>
-        <h2 class="mag-title reveal">What Ali&rsquo;s Loving This Season</h2>
-        <p class="page-dek reveal">
+    <section class="sheet" aria-label="Page 3, The Edit">
+      <div class="face page">
+        <p class="folio"><span>Rawan</span><span>The Edit</span><span>03</span></p>
+        <figure class="page-photo">
+          <img src="../assets/photos/ali.jpg" width="1000" height="1777"
+               alt="Ali in a fitted plum T-shirt and a silver bracelet, kissing a laughing toddler in a denim jacket on the cheek.">
+        </figure>
+        <dl class="credits on-ali">
+          <div><dt>On Ali</dt><dd>plum tee, silver bracelet, his own curls</dd></div>
+        </dl>
+        <p class="kicker">The Edit</p>
+        <h2 class="mag-title">What Ali&rsquo;s Loving This Season</h2>
+        <p class="page-dek">
           Every season, the editors pick their favourite things.
           This season, the editor only picked one.
         </p>
-
-        <ol class="edit">
-          <li class="reveal"><span class="edit-what">The colour</span><span class="edit-why">whatever she&rsquo;s wearing</span><span class="edit-tag">priceless</span></li>
-          <li class="reveal"><span class="edit-what">The accessory</span><span class="edit-why">her hand in mine</span><span class="edit-tag">not for sale</span></li>
-          <li class="reveal"><span class="edit-what">The fragrance</span><span class="edit-why">hers, still on my hoodie</span><span class="edit-tag">limited edition</span></li>
-          <li class="reveal"><span class="edit-what">The trend</span><span class="edit-why">her, every season since summer</span><span class="edit-tag">here to stay</span></li>
-          <li class="reveal"><span class="edit-what">The investment piece</span><span class="edit-why">forever, with her</span><span class="edit-tag">already decided</span></li>
-        </ol>
-
-        <p class="page-close reveal">
-          Trends come and go, Rawan. I&rsquo;ve loved you through every
-          one of them, and I&rsquo;m not changing my look.
-        </p>
-
-        <p class="ticket reveal"><span>Fardos</span><span>Front Row</span><span>Seat A1</span></p>
-        <p class="ticket-note reveal">where you&rsquo;ll find me, every show</p>
       </div>
     </section>
 
-    <!-- 📷 PAGE 04 — THE SHOOT: their first date, written up like a fashion
-         editorial. Each photo's crop is set by --ar (the frame's shape) and
-         --pos (which part of the photo stays in view). -->
-    <section class="mag-page" id="shoot">
-      <p class="folio"><span>Rawan</span><span>The Shoot</span><span>04</span></p>
-      <div class="page-body">
-        <p class="kicker reveal">The Shoot</p>
-        <h2 class="mag-title reveal">The First Date</h2>
-        <p class="page-dek reveal">
+    <section class="sheet" aria-label="Page 4, The Edit continued">
+      <div class="face page">
+        <p class="folio"><span>Rawan</span><span>The Edit</span><span>04</span></p>
+        <div class="page-middle">
+          <p class="kicker">This Season&rsquo;s Picks</p>
+          <ol class="edit">
+            <li><span class="edit-what">The colour</span><span class="edit-why">whatever she&rsquo;s wearing</span><span class="edit-tag">priceless</span></li>
+            <li><span class="edit-what">The accessory</span><span class="edit-why">her hand in mine</span><span class="edit-tag">not for sale</span></li>
+            <li><span class="edit-what">The fragrance</span><span class="edit-why">hers, still on my hoodie</span><span class="edit-tag">limited edition</span></li>
+            <li><span class="edit-what">The trend</span><span class="edit-why">her, every season since summer</span><span class="edit-tag">here to stay</span></li>
+            <li><span class="edit-what">The investment piece</span><span class="edit-why">forever, with her</span><span class="edit-tag">already decided</span></li>
+          </ol>
+          <p class="page-close">
+            Trends come and go, Rawan. I&rsquo;ve loved you through every
+            one of them, and I&rsquo;m not changing my look.
+          </p>
+          <p class="ticket"><span>Fardos</span><span>Front Row</span><span>Seat A1</span></p>
+          <p class="ticket-note">where you&rsquo;ll find me, every show</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 📷 PAGES 05–06 — THE SHOOT: their first date, written up like a
+         fashion editorial. On the second page, --pos sets which part of
+         each photo stays in view. -->
+    <section class="sheet" aria-label="Page 5, The Shoot">
+      <div class="face page">
+        <p class="folio"><span>Rawan</span><span>The Shoot</span><span>05</span></p>
+        <p class="kicker">The Shoot</p>
+        <h2 class="mag-title">The First Date</h2>
+        <p class="page-dek">
           Shot on location among the bookshelves, in matching browns.
           No stylist, no script &mdash; just the two of us.
         </p>
-      </div>
-
-      <div class="shoot">
-        <figure class="shot wide reveal" style="--ar: 2 / 3; --pos: 50% 58%;">
+        <dl class="credits shoot-credits">
+          <div><dt>Location</dt><dd>the bookshelves</dd></div>
+          <div><dt>Wardrobe</dt><dd>our own</dd></div>
+          <div><dt>Direction</dt><dd>none needed</dd></div>
+        </dl>
+        <figure class="shot lead" style="--pos: 50% 52%;">
           <div class="shot-photo">
             <img src="../assets/photos/shoot-1.jpg" width="1000" height="1767"
                  alt="Rawan and Ali facing each other, smiling, in front of a wall of bookshelves under a round skylight.">
@@ -167,76 +181,94 @@
             <span class="shot-credit">Her: camel trench, chocolate hijab &middot; Him: brown wool jacket, stone trousers</span>
           </figcaption>
         </figure>
-
-        <figure class="shot reveal" style="--ar: 9 / 16; --pos: 50% 50%;">
-          <div class="shot-photo">
-            <img src="../assets/photos/shoot-2.jpg" width="1000" height="1777"
-                 alt="Rawan from behind in a camel trench and chocolate hijab, browsing a shelf of art books.">
-          </div>
-          <figcaption>
-            <span class="shot-no">02</span>
-            <span class="shot-line">Research for the next collection</span>
-            <span class="shot-credit">Her: camel trench, black tote</span>
-          </figcaption>
-        </figure>
-
-        <figure class="shot reveal" style="--ar: 9 / 16; --pos: 50% 50%;">
-          <div class="shot-photo">
-            <img src="../assets/photos/shoot-3.jpg" width="1000" height="1777"
-                 alt="Ali in a brown wool jacket, leafing through an interiors book in front of design shelves.">
-          </div>
-          <figcaption>
-            <span class="shot-no">03</span>
-            <span class="shot-line">Choosing our future living room</span>
-            <span class="shot-credit">Him: brown wool jacket, silver watch</span>
-          </figcaption>
-        </figure>
-
-        <figure class="shot wide reveal" style="--ar: 4 / 5; --pos: 50% 52%;">
-          <div class="shot-photo">
-            <img src="../assets/photos/shoot-4.jpg" width="1000" height="1777"
-                 alt="Rawan peeking over the top of an open copy of The Story of Hermès, its black and white spread covering her face below the eyes.">
-          </div>
-          <figcaption>
-            <span class="shot-no">04</span>
-            <span class="shot-line">Sizing up the competition</span>
-            <span class="shot-credit">Her: trench with gingham cuffs, gold rings &middot; Reading: The Story of Herm&egrave;s</span>
-          </figcaption>
-        </figure>
       </div>
-
-      <dl class="credits shoot-credits reveal">
-        <div><dt>Location</dt><dd>the bookshelves</dd></div>
-        <div><dt>Wardrobe</dt><dd>our own</dd></div>
-        <div><dt>Direction</dt><dd>none needed</dd></div>
-      </dl>
     </section>
 
-    <!-- 🏷️ PAGE 05 — THE LABEL: Fardos Designs, her brand. فردوس means paradise. -->
-    <section class="mag-page label-page" id="label">
-      <p class="folio"><span>Rawan</span><span>The Label</span><span>05</span></p>
-      <div class="woven-label reveal">
-        <p class="label-name">FARDOS</p>
-        <p class="label-ar" lang="ar" dir="rtl">فردوس</p>
-        <p class="label-house">Designs &middot; by Rawan</p>
-        <p class="label-care">
-          100% her<br>
-          Hold often<br>
-          Never leave out in the cold<br>
-          Do not tumble dry
-        </p>
+    <section class="sheet" aria-label="Page 6, The Shoot continued">
+      <div class="face page">
+        <p class="folio"><span>Rawan</span><span>The Shoot</span><span>06</span></p>
+        <div class="shoot">
+          <figure class="shot" style="--pos: 50% 40%;">
+            <div class="shot-photo">
+              <img src="../assets/photos/shoot-2.jpg" width="1000" height="1777"
+                   alt="Rawan from behind in a camel trench and chocolate hijab, browsing a shelf of art books.">
+            </div>
+            <figcaption>
+              <span class="shot-no">02</span>
+              <span class="shot-line">Research for the next collection</span>
+              <span class="shot-credit">Her: camel trench, black tote</span>
+            </figcaption>
+          </figure>
+
+          <figure class="shot" style="--pos: 50% 60%;">
+            <div class="shot-photo">
+              <img src="../assets/photos/shoot-3.jpg" width="1000" height="1777"
+                   alt="Ali in a brown wool jacket, leafing through an interiors book in front of design shelves.">
+            </div>
+            <figcaption>
+              <span class="shot-no">03</span>
+              <span class="shot-line">Choosing our future living room</span>
+              <span class="shot-credit">Him: brown wool jacket, silver watch</span>
+            </figcaption>
+          </figure>
+
+          <figure class="shot wide" style="--pos: 50% 50%;">
+            <div class="shot-photo">
+              <img src="../assets/photos/shoot-4.jpg" width="1000" height="1777"
+                   alt="Rawan peeking over the top of an open copy of The Story of Hermès, its black and white spread covering her face below the eyes.">
+            </div>
+            <figcaption>
+              <span class="shot-no">04</span>
+              <span class="shot-line">Sizing up the competition</span>
+              <span class="shot-credit">Her: trench with gingham cuffs, gold rings &middot; Reading: The Story of Herm&egrave;s</span>
+            </figcaption>
+          </figure>
+        </div>
       </div>
-      <p class="label-note reveal">Fardos means paradise &mdash; which explains a lot.</p>
     </section>
 
-    <section class="closing">
-      <p class="adore reveal">I love you.</p>
-      <p class="signature reveal">from Ali</p>
-      <div class="heart reveal" aria-hidden="true">💜</div>
-      <a class="back-link reveal" href="../">← back to the box</a>
+    <!-- 🏷️ PAGE 07 — THE LABEL: Fardos Designs, her brand. فردوس means paradise. -->
+    <section class="sheet" aria-label="Page 7, The Label">
+      <div class="face page">
+        <p class="folio"><span>Rawan</span><span>The Label</span><span>07</span></p>
+        <div class="page-middle label-page">
+          <div class="woven-label">
+            <p class="label-name">FARDOS</p>
+            <p class="label-ar" lang="ar" dir="rtl">فردوس</p>
+            <p class="label-house">Designs &middot; by Rawan</p>
+            <p class="label-care">
+              100% her<br>
+              Hold often<br>
+              Never leave out in the cold<br>
+              Do not tumble dry
+            </p>
+          </div>
+          <p class="label-note">Fardos means paradise &mdash; which explains a lot.</p>
+        </div>
+      </div>
     </section>
-  </main>
+
+    <!-- 💜 THE BACK COVER -->
+    <section class="sheet" aria-label="Back cover">
+      <div class="face page back-cover">
+        <div class="page-middle closing">
+          <p class="adore rise">I love you.</p>
+          <p class="signature rise">from Ali</p>
+          <div class="heart rise" aria-hidden="true">💜</div>
+          <a class="back-link rise" href="../">&larr; back to the box</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="pager" id="pager" aria-label="Turn the pages" hidden>
+    <button class="pager-btn" type="button" data-turn="prev" aria-label="Previous page">&lsaquo;</button>
+    <span class="pager-count" aria-live="polite"><span class="now">01</span> / <span class="of">08</span></span>
+    <button class="pager-btn" type="button" data-turn="next" aria-label="Next page">&rsaquo;</button>
+  </nav>
 
 <script src="../assets/app.js"></script>
+<script src="../assets/mag.js"></script>
 </body>
 </html>

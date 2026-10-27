@@ -32,6 +32,7 @@ letters/no-5.html        Letter No. V — "قَمَرِي" (my moon): three mont
                          Lebanese Arabic, read aloud by Ali
 letters/no-6.html        Letter No. VI — "Cover Story": RAWAN, Issue No. 1,
                          a fashion magazine with her on the cover
+assets/mag.js            the page turning, loaded only by Letter No. VI
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
 assets/sea.js            the voice player, loaded only by Letter No. V
@@ -150,29 +151,41 @@ and it shares the twinkling stars of Letter No. IV.
 
 ## The magazine letter
 
-`letters/no-6.html` is a fashion glossy called RAWAN, Issue No. 1, laid out as
-a cover and four pages:
+`letters/no-6.html` is a fashion glossy called RAWAN, Issue No. 1. Rather than
+scrolling, she turns its pages: `assets/mag.js` stacks them and swings each one
+over about its left edge, following her finger as she swipes. Tapping near
+either edge of a page or the arrows underneath turns it too, and so do the
+arrow keys on a computer. On a phone the page fills the screen; on a bigger
+screen the issue is a magazine held up in front of you.
+
+The pages, each a `<section class="sheet">`:
 
 1. **The cover** — her name as the masthead over a full-screen photo.
 2. **Page 02, Cover Story** — her photo, a line about her and Fardos Designs,
    her fashion brand, and a pull quote.
-3. **Page 03, The Edit** — Ali's photo, and how much he loves her written up
-   like a magazine's "what we're loving this season" page, ending on his
+3. **Pages 03–04, The Edit** — Ali's photo, then how much he loves her written
+   up like a magazine's "what we're loving this season" page, ending on his
    front-row ticket to her show.
-4. **Page 04, The Shoot** — their first date, written up as a fashion
+4. **Pages 05–06, The Shoot** — their first date, written up as a fashion
    editorial: four photos, each with a caption and what they're wearing.
-5. **Page 05, The Label** — a woven Fardos Designs label.
+5. **Page 07, The Label** — a woven Fardos Designs label.
+6. **The back cover** — "I love you."
+
+To add a page, copy a `.sheet` and change its folio number; the counter under
+the pages counts them by itself. Each page is a column with the photo
+stretching to fill whatever room the words leave, so pages fit the screen on
+most phones. A page that runs longer than the screen scrolls inside itself:
+up and down scrolls, sideways turns. Without JavaScript the pages simply sit
+one under another.
 
 `body.mag` redefines the shared colour tokens the same way `body.night` does,
 and the headings are set in Bodoni Moda.
 
-The photos go in `assets/photos/`. The cover photo replaces the note inside
-`.cover-photo`, and a page's photo goes inside its `.page-photo`; in both
-cases, remove the `is-placeholder` class once the photo is in. On the shoot
-page, each `.shot` sets its frame with `--ar` and which part of the photo stays
-in view with `--pos`. Portrait photos
-work best: the cover fills the phone screen and the pages cut to 4:5. The
-cover shades its top and bottom so the white type reads over any photo.
+The photos go in `assets/photos/`. The cover photo is in `.cover-photo`; if
+it's swapped and her face moves, nudge `object-position` on `.cover-photo img`.
+Page 02's photo goes inside its `.page-photo` — remove the `is-placeholder`
+class once it's in. On the shoot pages, each `.shot` can set which part of its
+photo stays in view with `--pos`.
 
 ## Adding a photo or a video to a letter
 

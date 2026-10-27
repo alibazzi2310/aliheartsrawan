@@ -1575,7 +1575,8 @@ body.listening.following .sea-line:not(.now) { opacity: .5; }
    and a plum accent, set in Bodoni like a
    fashion glossy. Like the night letters,
    body.mag redefines the shared tokens so the
-   letter card and the closing follow along.
+   closing follows along. assets/mag.js turns
+   the pages.
    ═══════════════════════════════════════════ */
 
 body.mag {
@@ -1614,13 +1615,122 @@ body.mag .back-link:hover { color: var(--plum); }
   font-weight: 400;
   font-size: clamp(2.1rem, 8vw, 3rem);
   line-height: 1.05;
-  margin: .5rem 0 1.6rem;
+  margin: .4rem 0 1rem;
 }
+
+/* ── the issue: a pile of pages ──
+   Without JavaScript the pages sit one under another, a screen each.
+   mag.js adds .is-book, which stacks them so they can be turned: on a
+   phone the top page fills the screen; on a bigger screen the issue is a
+   magazine held up in front of you, with the arrows underneath. */
+.issue { position: relative; z-index: 1; }
+.sheet { position: relative; }
+.face { position: relative; min-height: 100svh; }
+.face-back { display: none; }
+
+body.booked { overflow: hidden; }
+.issue.is-book {
+  position: fixed;
+  inset: 0;
+  perspective: 2200px;
+  container-type: size;
+}
+.is-book .sheet {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  /* dragging a page shouldn't select its words */
+  -webkit-user-select: none;
+  user-select: none;
+}
+.is-book .sheet.turned { visibility: hidden; }
+.is-book .sheet.moving { transform-style: preserve-3d; }
+.is-book .face {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* sideways swipes are for turning, up and down is for scrolling */
+  touch-action: pan-y;
+  background: var(--paper);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+/* the back of a page, seen as it goes over */
+.is-book .sheet.moving .face-back {
+  display: block;
+  transform: rotateY(180deg);
+  background: linear-gradient(90deg, #ece2da, #f8f2ec 35%);
+}
+/* the shadow on a lifting page. Fixed, so it stays put if the page has
+   been scrolled; while the page moves, its turn makes the page itself
+   what "fixed" is measured against. */
+.turn-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(42, 31, 43, .05), rgba(42, 31, 43, .55));
+}
+
+@media (min-width: 700px) and (min-height: 560px) {
+  .issue.is-book {
+    inset: 0 0 3.6rem;
+    margin: auto;
+    height: min(84vh, 880px);
+    width: calc(min(84vh, 880px) * .7);
+    box-shadow: 0 30px 70px rgba(42, 31, 43, .28), 0 4px 12px rgba(42, 31, 43, .1);
+  }
+}
+
+/* ── the arrows ── */
+.pager {
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  bottom: max(.8rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  padding: .2rem .35rem;
+  background: rgba(255, 253, 249, .85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(42, 31, 43, .14);
+}
+.pager[hidden] { display: none; }
+.pager-btn {
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pager-btn:disabled { opacity: .25; cursor: default; }
+.pager-btn:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; }
+.pager-count {
+  min-width: 4.4rem;
+  text-align: center;
+  font-family: 'Bodoni Moda', serif;
+  font-size: .9rem;
+  letter-spacing: .04em;
+}
+.pager-count .now { color: var(--plum); }
 
 /* ── the cover ── */
 .cover {
   position: relative;
-  z-index: 1;
   isolation: isolate;
   min-height: 100svh;
   display: flex;
@@ -1629,6 +1739,12 @@ body.mag .back-link:hover { color: var(--plum); }
   padding: 1.3rem 1.25rem 1.6rem;
   color: #fff;
   overflow: hidden;
+}
+.is-book .cover {
+  min-height: 0;
+  height: 100%;
+  /* clear the arrows on a phone */
+  padding-bottom: 4.6rem;
 }
 /* shade the top and bottom so the type reads over any photo */
 .cover::after {
@@ -1654,20 +1770,6 @@ body.mag .back-link:hover { color: var(--plum); }
   /* keep her in the middle when a phone crops the sides */
   object-position: 48% 30%;
 }
-.cover-photo.is-placeholder {
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 52%, rgba(255, 220, 235, .28), transparent 70%),
-    linear-gradient(165deg, #3b2337 0%, #7d4266 48%, #d39ab4 100%);
-}
-.cover-photo .media-note {
-  font-family: 'Quicksand', sans-serif;
-  font-size: .72rem;
-  letter-spacing: .26em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .6);
-  border: 1px dashed rgba(255, 255, 255, .45);
-  padding: .9rem 1.2rem;
-}
 .cover-issue {
   display: flex;
   justify-content: space-between;
@@ -1689,12 +1791,14 @@ body.mag .back-link:hover { color: var(--plum); }
   margin-top: .2rem;
   text-shadow: 0 2px 24px rgba(26, 16, 26, .25);
 }
+/* in the book, the name is sized to the page rather than the screen */
+.is-book .masthead { font-size: 22.5cqw; }
 .cover-lines {
   list-style: none;
   display: grid;
   gap: 1rem;
   max-width: 21rem;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.4rem;
 }
 .cover-lines li {
   font-family: 'Bodoni Moda', serif;
@@ -1713,16 +1817,23 @@ body.mag .back-link:hover { color: var(--plum); }
   justify-content: space-between;
 }
 .open-issue {
+  padding: 0;
+  border: 0;
+  background: none;
   font-family: 'Quicksand', sans-serif;
   font-size: .72rem;
   letter-spacing: .28em;
   text-transform: uppercase;
   color: #fff;
-  text-decoration: none;
+  cursor: pointer;
 }
 .open-issue .arrow {
   display: inline-block;
-  animation: nudge 2s ease-in-out infinite;
+  animation: nudgeAcross 2s ease-in-out infinite;
+}
+@keyframes nudgeAcross {
+  0%, 100% { transform: translateX(0); opacity: .5; }
+  50%      { transform: translateX(6px); opacity: 1; }
 }
 /* a barcode, like every glossy on the stand */
 .barcode {
@@ -1746,36 +1857,25 @@ body.mag .back-link:hover { color: var(--plum); }
   letter-spacing: .2em;
   text-transform: uppercase;
 }
-/* on a big screen, the cover is a magazine on the table, not the whole screen */
-@media (min-width: 700px) {
-  .cover {
-    width: 560px;
-    min-height: 0;
-    aspect-ratio: 3 / 4;
-    margin: 3.5rem auto 0;
-    border-radius: 3px;
-    box-shadow: 0 30px 70px rgba(42, 31, 43, .3), 0 4px 12px rgba(42, 31, 43, .12);
-  }
-  .masthead { font-size: 8.4rem; }
-}
 
-/* ── a page of the magazine ── */
-.mag-page {
-  position: relative;
-  z-index: 1;
-  max-width: 560px;
-  margin: 4rem auto 0;
-  padding: 1.1rem 1.4rem 2.4rem;
+/* ── a page inside ──
+   Each page is a column: the running line at the top, then the photo,
+   which stretches to fill whatever room the words leave. */
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 1.4rem 2rem;
   background: var(--paper);
-  border: 1px solid var(--edge);
-  border-radius: 3px;
-  box-shadow: 0 24px 60px rgba(42, 31, 43, .12), 0 3px 10px rgba(42, 31, 43, .05);
 }
-@media (max-width: 599px) {
-  .mag-page { margin: 3rem .75rem 0; }
+/* clear the arrows on a phone */
+.is-book .page { padding-bottom: 4.8rem; }
+@media (min-width: 700px) and (min-height: 560px) {
+  .is-book .page { padding-bottom: 1.6rem; }
+  .is-book .cover { padding-bottom: 1.6rem; }
 }
 /* the running line along the top of every page */
 .folio {
+  flex: none;
   display: flex;
   justify-content: space-between;
   font-family: 'Quicksand', sans-serif;
@@ -1788,14 +1888,16 @@ body.mag .back-link:hover { color: var(--plum); }
   border-bottom: 1px solid var(--ink);
 }
 .folio span:last-child { font-family: 'Bodoni Moda', serif; font-size: .85rem; letter-spacing: 0; color: var(--ink); }
-.page-body { padding: 0 .2rem; }
+/* words that sit in the middle of an otherwise empty page */
+.page-middle { margin-block: auto; padding-top: .6rem; }
 .page-photo {
   position: relative;
-  aspect-ratio: 4 / 5;
+  flex: 1 1 0;
+  min-height: 13rem;
   display: grid;
   place-items: center;
   overflow: hidden;
-  margin: 0 0 1.6rem;
+  margin: 0 0 1.2rem;
 }
 .page-photo img {
   position: absolute;
@@ -1819,9 +1921,9 @@ body.mag .back-link:hover { color: var(--plum); }
 }
 .page-dek {
   font-style: italic;
-  font-size: clamp(1.2rem, 3.6vw, 1.4rem);
-  line-height: 1.5;
-  margin: -.6rem 0 1.6rem;
+  font-size: clamp(1.15rem, 3.4vw, 1.3rem);
+  line-height: 1.45;
+  margin: 0 0 1.2rem;
 }
 
 /* fashion credits, set like the small print beside an editorial photo */
@@ -1832,7 +1934,7 @@ body.mag .back-link:hover { color: var(--plum); }
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  padding: .45rem 0;
+  padding: .4rem 0;
   border-bottom: 1px solid var(--edge);
 }
 .credits dt {
@@ -1850,83 +1952,88 @@ body.mag .back-link:hover { color: var(--plum); }
   text-align: right;
 }
 /* under his photo, the credit sits close, like a caption */
-.credits.on-ali { margin: -1rem 0 2rem; border-top: 0; }
+.credits.on-ali { margin: -.8rem 0 1.4rem; border-top: 0; }
 
 /* ── the pull quote ── */
 .pull-quote {
-  margin-top: 2.6rem;
+  margin-top: 1.6rem;
   text-align: center;
 }
 .pull-quote p {
   font-family: 'Bodoni Moda', serif;
   font-style: italic;
-  font-size: clamp(1.7rem, 7vw, 2.3rem);
+  font-size: clamp(1.45rem, 5.6vw, 1.9rem);
   line-height: 1.2;
 }
 .pull-quote p::before {
   content: '\201C';
   display: block;
-  font-size: 2.4em;
-  line-height: .6;
-  margin-bottom: .1em;
+  font-size: 2.2em;
+  line-height: .55;
+  margin-bottom: .05em;
   color: var(--plum);
 }
 .pull-quote cite {
   display: block;
-  margin-top: 1.1rem;
+  margin-top: .8rem;
   font-family: 'Quicksand', sans-serif;
   font-style: normal;
-  font-size: .64rem;
-  letter-spacing: .26em;
+  font-size: .6rem;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--muted);
 }
-.pull-quote cite span { display: block; margin-top: .3rem; }
 
 /* ── the edit: what he's loving, set like a shopping page ── */
 .edit {
   list-style: none;
   counter-reset: edit;
+  margin-top: .8rem;
   border-top: 1px solid var(--ink);
 }
 .edit li {
   counter-increment: edit;
   display: grid;
-  grid-template-columns: 2.4rem 1fr;
-  column-gap: .4rem;
-  padding: .9rem 0;
+  grid-template-columns: 2.2rem 1fr auto;
+  align-items: center;
+  column-gap: .5rem;
+  padding: .7rem 0;
   border-bottom: 1px solid var(--edge);
 }
 .edit li::before {
   content: counter(edit, decimal-leading-zero);
-  grid-row: span 3;
+  grid-row: span 2;
+  align-self: start;
   font-family: 'Bodoni Moda', serif;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 1;
   color: var(--plum);
 }
 .edit-what {
+  grid-column: 2;
   font-family: 'Quicksand', sans-serif;
-  font-size: .64rem;
+  font-size: .62rem;
   letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--muted);
 }
 .edit-why {
+  grid-column: 2;
   font-family: 'Bodoni Moda', serif;
-  font-size: 1.25rem;
-  line-height: 1.3;
-  margin-top: .15rem;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  margin-top: .1rem;
 }
 /* the price, on a little swing tag */
 .edit-tag {
-  justify-self: start;
-  margin-top: .5rem;
-  padding: .15rem .6rem .15rem 1.1rem;
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  padding: .15rem .55rem .15rem 1.05rem;
   font-family: 'Quicksand', sans-serif;
-  font-size: .58rem;
-  letter-spacing: .18em;
+  font-size: .54rem;
+  letter-spacing: .16em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--paper);
   background:
     radial-gradient(circle at .5rem 50%, var(--paper) .14rem, transparent .15rem),
@@ -1934,17 +2041,17 @@ body.mag .back-link:hover { color: var(--plum); }
   clip-path: polygon(.45rem 0, 100% 0, 100% 100%, .45rem 100%, 0 50%);
 }
 .page-close {
-  font-size: clamp(1.25rem, 3.8vw, 1.45rem);
+  font-size: clamp(1.2rem, 3.6vw, 1.35rem);
   font-style: italic;
-  line-height: 1.6;
+  line-height: 1.55;
   text-align: center;
-  margin: 2.2rem 0 0;
+  margin: 1.6rem 0 0;
 }
 
 /* a front-row seat card, torn along the dotted line */
 .ticket {
   display: flex;
-  margin-top: 2.2rem;
+  margin-top: 1.6rem;
   font-family: 'Quicksand', sans-serif;
   font-size: .62rem;
   letter-spacing: .16em;
@@ -1964,20 +2071,30 @@ body.mag .back-link:hover { color: var(--plum); }
   font-size: 1.05rem;
   text-align: center;
   color: var(--muted);
-  margin-top: .7rem;
+  margin-top: .6rem;
 }
 
 /* ── the shoot: their first date, as an editorial ── */
+.shoot-credits { margin-bottom: 1.2rem; }
+.shot {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin: 0;
+}
+.shot.lead { flex: 1 1 0; min-height: 17rem; }
 .shoot {
+  flex: 1 1 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.6rem .8rem;
+  grid-template-rows: minmax(16rem, 1fr) minmax(15rem, 1fr);
+  gap: 1.2rem .8rem;
 }
-.shot { margin: 0; }
 .shot.wide { grid-column: 1 / -1; }
 .shot-photo {
   position: relative;
-  aspect-ratio: var(--ar, 4 / 5);
+  flex: 1 1 0;
+  min-height: 8rem;
   overflow: hidden;
 }
 .shot-photo img {
@@ -1989,41 +2106,41 @@ body.mag .back-link:hover { color: var(--plum); }
   object-position: var(--pos, 50% 50%);
 }
 .shot figcaption {
+  flex: none;
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: .5rem;
-  margin-top: .6rem;
+  margin-top: .5rem;
 }
 .shot-no {
   grid-row: span 2;
   font-family: 'Bodoni Moda', serif;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   line-height: 1;
   color: var(--plum);
 }
 .shot-line {
   font-family: 'Bodoni Moda', serif;
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.2;
 }
 .shot-credit {
-  margin-top: .3rem;
+  margin-top: .25rem;
   font-family: 'Quicksand', sans-serif;
-  font-size: .56rem;
-  line-height: 1.7;
-  letter-spacing: .14em;
+  font-size: .54rem;
+  line-height: 1.6;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--muted);
 }
-.shoot-credits { margin-top: 2.2rem; }
 
 /* ── her brand, on the label ── */
 .label-page { text-align: center; }
 .woven-label {
   position: relative;
   max-width: 290px;
-  margin: 1.6rem auto 0;
+  margin: 0 auto;
   padding: 1.6rem 1.2rem 1.4rem;
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 3px),
@@ -2071,8 +2188,26 @@ body.mag .back-link:hover { color: var(--plum); }
   margin-top: 1.4rem;
 }
 
+/* ── the back cover ── */
+.back-cover .closing {
+  min-height: 0;
+  padding: 0;
+}
+/* the last words rise in as the page lands */
+.is-book .rise {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(.22, .8, .35, 1);
+}
+.is-book .sheet.current .rise { opacity: 1; transform: none; }
+.is-book .sheet.current .rise:nth-child(1) { transition-delay: .15s; }
+.is-book .sheet.current .rise:nth-child(2) { transition-delay: .6s; }
+.is-book .sheet.current .rise:nth-child(3) { transition-delay: 1s; }
+.is-book .sheet.current .rise:nth-child(4) { transition-delay: 1.4s; }
+
 @media (prefers-reduced-motion: reduce) {
   .open-issue .arrow { animation: none; }
+  .is-book .rise { transition: none; }
 }
 
 /* ── the password gate (assets/gate.js) ──
