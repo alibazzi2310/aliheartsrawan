@@ -1569,6 +1569,717 @@ body.listening.following .sea-line:not(.now) { opacity: .5; }
   .sea-line, .sea-line .ar { transition: none; }
 }
 
+/* ═══════════════════════════════════════════
+   THE MAGAZINE  (letters/no-6.html)
+   RAWAN, Issue No. 1: ivory paper, black ink
+   and a plum accent, set in Bodoni like a
+   fashion glossy. Like the night letters,
+   body.mag redefines the shared tokens so the
+   closing follows along. assets/mag.js turns
+   the pages.
+   ═══════════════════════════════════════════ */
+
+body.mag {
+  --paper: #fffdf9;
+  --ink: #2a1f2b;
+  --deep-purple: #2a1f2b;
+  --soft-purple: #a0497a;
+  --muted: #9a8a94;
+  --rose: #d98bb0;
+  --edge: rgba(42, 31, 43, .14);
+  --plum: #a0497a;
+  --cover: #2a1f2b;
+  background: linear-gradient(170deg, #f8f1ec 0%, #fbeef2 50%, #f5ede7 100%);
+  background-attachment: fixed;
+}
+body.mag .closing .adore {
+  background: linear-gradient(120deg, var(--ink), var(--plum) 55%, #d476ab);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+body.mag .back-link { border-bottom-color: var(--edge); }
+body.mag .back-link:hover { color: var(--plum); }
+
+/* the small capitals over every heading */
+.mag .kicker {
+  display: block;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--plum);
+}
+.mag-title {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 400;
+  font-size: clamp(2.1rem, 8vw, 3rem);
+  line-height: 1.05;
+  margin: .4rem 0 1rem;
+}
+
+/* ── the issue: a pile of pages ──
+   Without JavaScript the pages sit one under another, a screen each.
+   mag.js adds .is-book, which stacks them so they can be turned: on a
+   phone the top page fills the screen; on a bigger screen the issue is a
+   magazine held up in front of you, with the arrows underneath. */
+.issue { position: relative; z-index: 1; }
+.sheet { position: relative; }
+.face { position: relative; min-height: 100svh; }
+.face-back { display: none; }
+
+body.booked { overflow: hidden; }
+.issue.is-book {
+  position: fixed;
+  inset: 0;
+  perspective: 2200px;
+  container-type: size;
+}
+.is-book .sheet {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  /* dragging a page shouldn't select its words */
+  -webkit-user-select: none;
+  user-select: none;
+}
+.is-book .sheet.turned { visibility: hidden; }
+.is-book .sheet.moving { transform-style: preserve-3d; }
+.is-book .face {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* sideways swipes are for turning, up and down is for scrolling */
+  touch-action: pan-y;
+  background: var(--paper);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+/* the back of a page, seen as it goes over */
+.is-book .sheet.moving .face-back {
+  display: block;
+  transform: rotateY(180deg);
+  background: linear-gradient(90deg, #ece2da, #f8f2ec 35%);
+}
+/* the shadow on a lifting page. Fixed, so it stays put if the page has
+   been scrolled; while the page moves, its turn makes the page itself
+   what "fixed" is measured against. */
+.turn-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(42, 31, 43, .05), rgba(42, 31, 43, .55));
+}
+
+@media (min-width: 700px) and (min-height: 560px) {
+  .issue.is-book {
+    inset: 0 0 3.6rem;
+    margin: auto;
+    height: min(84vh, 880px);
+    width: calc(min(84vh, 880px) * .7);
+    box-shadow: 0 30px 70px rgba(42, 31, 43, .28), 0 4px 12px rgba(42, 31, 43, .1);
+  }
+}
+
+/* ── the arrows ── */
+.pager {
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  bottom: max(.8rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  padding: .2rem .35rem;
+  background: rgba(255, 253, 249, .85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(42, 31, 43, .14);
+}
+.pager[hidden] { display: none; }
+.pager-btn {
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pager-btn:disabled { opacity: .25; cursor: default; }
+.pager-btn:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; }
+.pager-count {
+  min-width: 4.4rem;
+  text-align: center;
+  font-family: 'Bodoni Moda', serif;
+  font-size: .9rem;
+  letter-spacing: .04em;
+}
+.pager-count .now { color: var(--plum); }
+
+/* ── the cover ── */
+.cover {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.3rem 1.25rem 1.6rem;
+  color: #fff;
+  overflow: hidden;
+}
+.is-book .cover {
+  min-height: 0;
+  height: 100%;
+  /* clear the arrows on a phone */
+  padding-bottom: 4.6rem;
+}
+/* shade the top and bottom so the type reads over any photo */
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(26, 16, 26, .38) 0%, rgba(26, 16, 26, 0) 26%,
+    rgba(26, 16, 26, 0) 50%, rgba(26, 16, 26, .7) 100%);
+}
+.cover-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: grid;
+  place-items: center;
+}
+.cover-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* keep her in the middle when a phone crops the sides */
+  object-position: 48% 30%;
+}
+.cover-issue {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
+  padding-bottom: .5rem;
+}
+.masthead {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 500;
+  font-size: min(23vw, 9.5rem);
+  line-height: 1;
+  letter-spacing: .02em;
+  text-align: center;
+  margin-top: .2rem;
+  text-shadow: 0 2px 24px rgba(26, 16, 26, .25);
+}
+/* in the book, the name is sized to the page rather than the screen */
+.is-book .masthead { font-size: 22.5cqw; }
+.cover-lines {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  max-width: 21rem;
+  margin-bottom: 1.4rem;
+}
+.cover-lines li {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+.cover-lines .kicker {
+  font-style: normal;
+  color: #f6c4dc;
+  margin-bottom: .2rem;
+}
+.cover-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.open-issue {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .72rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+}
+.open-issue .arrow {
+  display: inline-block;
+  animation: nudgeAcross 2s ease-in-out infinite;
+}
+@keyframes nudgeAcross {
+  0%, 100% { transform: translateX(0); opacity: .5; }
+  50%      { transform: translateX(6px); opacity: 1; }
+}
+/* a barcode, like every glossy on the stand */
+.barcode {
+  display: grid;
+  gap: 3px;
+  padding: 6px 7px 4px;
+  background: #fff;
+  color: var(--cover);
+  text-align: center;
+}
+.barcode .bars {
+  width: 64px;
+  height: 26px;
+  background: repeating-linear-gradient(90deg,
+    var(--cover) 0 2px, transparent 2px 3px, var(--cover) 3px 4px,
+    transparent 4px 6px, var(--cover) 6px 9px, transparent 9px 10px);
+}
+.barcode .price {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .5rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+/* ── a page inside ──
+   Each page is a column: the running line at the top, then the photos,
+   which stretch to fill whatever room the words leave. */
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 1.4rem 2rem;
+  background: var(--paper);
+}
+/* clear the arrows on a phone */
+.is-book .page { padding-bottom: 4.8rem; }
+@media (min-width: 700px) and (min-height: 560px) {
+  .is-book .page { padding-bottom: 1.6rem; }
+  .is-book .cover { padding-bottom: 1.6rem; }
+}
+/* the running line along the top of every page */
+.folio {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: .6rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--ink);
+}
+.folio span:last-child { font-family: 'Bodoni Moda', serif; font-size: .85rem; letter-spacing: 0; color: var(--ink); }
+/* words that sit in the middle of an otherwise empty page */
+.page-middle { margin-block: auto; padding-top: .6rem; }
+.page-dek {
+  font-style: italic;
+  font-size: clamp(1.15rem, 3.4vw, 1.3rem);
+  line-height: 1.45;
+  margin: 0 0 1.2rem;
+}
+
+/* a page whose photo fills it, like the cover, with the words in white
+   over a shade at the foot */
+.page.full-bleed {
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  background: var(--cover);
+}
+.is-book .face.full-bleed { background: var(--cover); overflow: hidden; }
+.full-bleed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(26, 16, 26, .45) 0%, rgba(26, 16, 26, 0) 16%,
+    rgba(26, 16, 26, 0) 42%, rgba(26, 16, 26, .85) 100%);
+}
+.bleed-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  margin: 0;
+}
+.bleed-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* his face and the little one's, whichever way the screen crops */
+  object-position: 42% 28%;
+  /* shown in black and white, like an editorial portrait */
+  filter: grayscale(1);
+}
+.full-bleed .folio { color: rgba(255, 255, 255, .85); border-bottom-color: rgba(255, 255, 255, .6); }
+.full-bleed .folio span:last-child { color: #fff; }
+.bleed-words { margin-top: auto; }
+.full-bleed .kicker { color: #f6c4dc; }
+.full-bleed .page-dek { color: rgba(255, 255, 255, .92); }
+.bleed-credit {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .8);
+  border-top: 1px solid rgba(255, 255, 255, .45);
+  padding-top: .6rem;
+}
+.bleed-credit span { color: #f6c4dc; margin-right: .8em; }
+
+/* fashion credits, set like the small print beside an editorial photo */
+.credits {
+  border-top: 1px solid var(--ink);
+}
+.credits div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--edge);
+}
+.credits dt {
+  flex: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: .25rem;
+}
+.credits dd {
+  font-style: italic;
+  font-size: 1.05rem;
+  text-align: right;
+}
+
+/* ── the pull quote ── */
+.pull-quote {
+  margin-top: 1.6rem;
+  text-align: center;
+}
+.pull-quote p {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: clamp(1.45rem, 5.6vw, 1.9rem);
+  line-height: 1.2;
+}
+.pull-quote p::before {
+  content: '\201C';
+  display: block;
+  font-size: 2.2em;
+  line-height: .55;
+  margin-bottom: .05em;
+  color: var(--plum);
+}
+.pull-quote cite {
+  display: block;
+  margin-top: .8rem;
+  font-family: 'Quicksand', sans-serif;
+  font-style: normal;
+  font-size: .6rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── the edit: what he's loving, set like a shopping page ── */
+.edit {
+  list-style: none;
+  counter-reset: edit;
+  margin-top: .8rem;
+  border-top: 1px solid var(--ink);
+}
+.edit li {
+  counter-increment: edit;
+  display: grid;
+  grid-template-columns: 2.2rem 1fr auto;
+  align-items: center;
+  column-gap: .5rem;
+  padding: .7rem 0;
+  border-bottom: 1px solid var(--edge);
+}
+.edit li::before {
+  content: counter(edit, decimal-leading-zero);
+  grid-row: span 2;
+  align-self: start;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--plum);
+}
+.edit-what {
+  grid-column: 2;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.edit-why {
+  grid-column: 2;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  margin-top: .1rem;
+}
+/* the price, on a little swing tag */
+.edit-tag {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  padding: .15rem .55rem .15rem 1.05rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .54rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--paper);
+  background:
+    radial-gradient(circle at .5rem 50%, var(--paper) .14rem, transparent .15rem),
+    var(--ink);
+  clip-path: polygon(.45rem 0, 100% 0, 100% 100%, .45rem 100%, 0 50%);
+}
+.page-close {
+  font-size: clamp(1.2rem, 3.6vw, 1.35rem);
+  font-style: italic;
+  line-height: 1.55;
+  text-align: center;
+  margin: 1.6rem 0 0;
+}
+
+/* a front-row seat card, torn along the dotted line */
+.ticket {
+  display: flex;
+  margin-top: 1.6rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid var(--ink);
+}
+.ticket span {
+  flex: 1;
+  padding: .7rem .2rem;
+  text-align: center;
+}
+.ticket span + span { border-left: 1px dashed var(--ink); }
+.ticket span:nth-child(2) { background: var(--ink); color: var(--paper); }
+.ticket-note {
+  font-style: italic;
+  font-size: 1.05rem;
+  text-align: center;
+  color: var(--muted);
+  margin-top: .6rem;
+}
+
+/* ── the shoot: their first date, as an editorial ── */
+.shoot-credits { margin-bottom: 1.2rem; }
+.shot {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin: 0;
+}
+.shot.lead { flex: 1 1 0; min-height: 17rem; }
+/* Looks laid out in rows: each row is a track for the photos and one for
+   their captions, which every look shares, so the photos in a row line up
+   however long their captions run. */
+.shoot {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(10rem, 1fr) auto minmax(10rem, 1fr) auto;
+  gap: 1.2rem .8rem;
+}
+.shoot > .shot {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  row-gap: 0;
+}
+.shot.wide { grid-column: 1 / -1; }
+/* two side by side over one that's given more of the page */
+.shoot.big-foot { grid-template-rows: minmax(8rem, 2fr) auto minmax(13rem, 4fr) auto; }
+/* two looks side by side, under a page's heading */
+.shoot.pair { grid-template-rows: minmax(12rem, 1fr) auto; }
+.shot-photo {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 8rem;
+  overflow: hidden;
+}
+.shot-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+/* A posed look is zoomed and placed so she stands the same height in every
+   frame, with the top of her head on a line 5% down the frame and her feet
+   on a line 98% down (low, because in some photos her feet are almost at
+   the bottom edge), centred across. --head, --feet and
+   --x are fractions of the photo and --ratio is its height over its width.
+   If zooming only that far would leave the frame showing past the photo's
+   sides, it zooms in further, keeping her head on its line. */
+.shot.posed .shot-photo { container-type: size; }
+.shot.posed .shot-photo img {
+  --h: max(.93 * 100cqh / (var(--feet) - var(--head)), var(--ratio) * 100cqw);
+  inset: auto;
+  max-width: none;
+  width: calc(var(--h) / var(--ratio));
+  height: var(--h);
+  top: clamp(100cqh - var(--h), 5cqh - var(--head) * var(--h), 0px);
+  left: clamp(100cqw - var(--h) / var(--ratio), 50cqw - var(--x) * var(--h) / var(--ratio), 0px);
+}
+
+/* A focused shot keeps one point of its photo at the same place in the
+   frame, whatever shape the frame takes on a given screen. --focus is how
+   far down the photo that point is and --at is how far down the frame it
+   should sit (both 0 to 1; --at is halfway unless set). --x is how far
+   across the photo to centre on, and --ratio is the photo's height over
+   its width. The photo is as big as it needs to be to fill the frame, or
+   --zoom times the frame's height if that's bigger, and it's slid until
+   the point lands, but never so far that the frame shows past its edge. */
+.shot.focused .shot-photo { container-type: size; }
+.shot.focused .shot-photo img {
+  --h: max(var(--ratio) * 100cqw, var(--zoom, 1) * 100cqh);
+  inset: auto;
+  max-width: none;
+  width: calc(var(--h) / var(--ratio));
+  height: var(--h);
+  top: clamp(100cqh - var(--h), var(--at, .5) * 100cqh - var(--focus) * var(--h), 0px);
+  left: clamp(100cqw - var(--h) / var(--ratio), 50cqw - var(--x, .5) * var(--h) / var(--ratio), 0px);
+}
+.shot figcaption {
+  flex: none;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  /* a short caption sits at the top of its row, not spread through it */
+  align-content: start;
+  column-gap: .5rem;
+  margin-top: .5rem;
+}
+.shot-no {
+  grid-row: span 2;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--plum);
+}
+.shot-line {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.shot-credit {
+  margin-top: .25rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .54rem;
+  line-height: 1.6;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── her brand, on the label ── */
+.label-page { text-align: center; }
+.label-page .pull-quote { margin: 0 0 2.2rem; }
+.woven-label {
+  position: relative;
+  max-width: 290px;
+  margin: 0 auto;
+  padding: 1.6rem 1.2rem 1.4rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 3px),
+    #2a1f2b;
+  color: #f3e3d6;
+  outline: 1px dashed rgba(243, 227, 214, .45);
+  outline-offset: -7px;
+  box-shadow: 0 16px 34px rgba(42, 31, 43, .25);
+}
+.label-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 2.1rem;
+  letter-spacing: .34em;
+  margin-right: -.34em;
+}
+.label-ar {
+  font-family: 'Amiri', serif;
+  font-size: 1.5rem;
+  /* room for the dots below the letters */
+  line-height: 1.5;
+  color: #f6c4dc;
+}
+.label-house {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: #f6c4dc;
+  margin-top: .2rem;
+}
+.label-care {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .6rem;
+  line-height: 2;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  padding-top: .9rem;
+  border-top: 1px solid rgba(243, 227, 214, .25);
+}
+.label-note {
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin-top: 1.4rem;
+}
+
+/* ── the back cover ── */
+.back-cover .closing {
+  min-height: 0;
+  padding: 0;
+}
+/* the last words rise in as the page lands */
+.is-book .rise {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(.22, .8, .35, 1);
+}
+.is-book .sheet.current .rise { opacity: 1; transform: none; }
+.is-book .sheet.current .rise:nth-child(1) { transition-delay: .15s; }
+.is-book .sheet.current .rise:nth-child(2) { transition-delay: .6s; }
+.is-book .sheet.current .rise:nth-child(3) { transition-delay: 1s; }
+.is-book .sheet.current .rise:nth-child(4) { transition-delay: 1.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .open-issue .arrow { animation: none; }
+  .is-book .rise { transition: none; }
+}
+
 /* ── the password gate (assets/gate.js) ──
    Drawn over every page until the password has been given once on this
    device. It sets its own colours, so it looks the same on the dark letters. */
