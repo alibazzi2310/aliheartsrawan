@@ -1927,6 +1927,8 @@ body.booked { overflow: hidden; }
   object-fit: cover;
   /* his face and the little one's, whichever way the screen crops */
   object-position: 42% 28%;
+  /* shown in black and white, like an editorial portrait */
+  filter: grayscale(1);
 }
 .full-bleed .folio { color: rgba(255, 255, 255, .85); border-bottom-color: rgba(255, 255, 255, .6); }
 .full-bleed .folio span:last-child { color: #fff; }
