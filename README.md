@@ -151,7 +151,7 @@ and it shares the twinkling stars of Letter No. IV.
 ## The magazine letter
 
 `letters/no-6.html` is a fashion glossy called RAWAN, Issue No. 1, laid out as
-a cover and three pages:
+a cover and four pages:
 
 1. **The cover** — her name as the masthead over a full-screen photo.
 2. **Page 02, Cover Story** — her photo, a line about her and Fardos Designs,
@@ -159,14 +159,18 @@ a cover and three pages:
 3. **Page 03, The Edit** — Ali's photo, and how much he loves her written up
    like a magazine's "what we're loving this season" page, ending on his
    front-row ticket to her show.
-4. **Page 04, The Label** — a woven Fardos Designs label.
+4. **Page 04, The Shoot** — their first date, written up as a fashion
+   editorial: four photos, each with a caption and what they're wearing.
+5. **Page 05, The Label** — a woven Fardos Designs label.
 
 `body.mag` redefines the shared colour tokens the same way `body.night` does,
 and the headings are set in Bodoni Moda.
 
 The photos go in `assets/photos/`. The cover photo replaces the note inside
 `.cover-photo`, and a page's photo goes inside its `.page-photo`; in both
-cases, remove the `is-placeholder` class once the photo is in. Portrait photos
+cases, remove the `is-placeholder` class once the photo is in. On the shoot
+page, each `.shot` sets its frame with `--ar` and which part of the photo stays
+in view with `--pos`. Portrait photos
 work best: the cover fills the phone screen and the pages cut to 4:5. The
 cover shades its top and bottom so the white type reads over any photo.
 

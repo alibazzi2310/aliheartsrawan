@@ -1967,6 +1967,57 @@ body.mag .back-link:hover { color: var(--plum); }
   margin-top: .7rem;
 }
 
+/* ── the shoot: their first date, as an editorial ── */
+.shoot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem .8rem;
+}
+.shot { margin: 0; }
+.shot.wide { grid-column: 1 / -1; }
+.shot-photo {
+  position: relative;
+  aspect-ratio: var(--ar, 4 / 5);
+  overflow: hidden;
+}
+.shot-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, 50% 50%);
+}
+.shot figcaption {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: .5rem;
+  margin-top: .6rem;
+}
+.shot-no {
+  grid-row: span 2;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--plum);
+}
+.shot-line {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+.shot-credit {
+  margin-top: .3rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .56rem;
+  line-height: 1.7;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.shoot-credits { margin-top: 2.2rem; }
+
 /* ── her brand, on the label ── */
 .label-page { text-align: center; }
 .woven-label {
