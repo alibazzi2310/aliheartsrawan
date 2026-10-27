@@ -2104,17 +2104,18 @@ body.booked { overflow: hidden; }
   object-fit: cover;
   object-position: var(--pos, 50% 50%);
 }
-/* A focused shot keeps one point of its photo in the middle of the frame,
-   whatever shape the frame takes on a given screen. --focus is how far down
-   the photo that point is (0 to 1) and --ratio is the photo's height over
-   its width. The photo fills the frame's width, so it's that tall, and it's
-   slid up until the point sits halfway down, but never so far that the
-   frame shows past its edge. */
+/* A focused shot keeps one point of its photo at the same place in the
+   frame, whatever shape the frame takes on a given screen. --focus is how
+   far down the photo that point is and --at is how far down the frame it
+   should sit (both 0 to 1; --at is halfway unless set). --ratio is the
+   photo's height over its width. The photo fills the frame's width, so it's
+   that tall, and it's slid up until the point lands, but never so far that
+   the frame shows past its edge. */
 .shot.focused .shot-photo { container-type: size; }
 .shot.focused .shot-photo img {
   object-position: 50% clamp(
     min(0px, 100cqh - var(--ratio) * 100cqw),
-    50cqh - var(--focus) * var(--ratio) * 100cqw,
+    var(--at, .5) * 100cqh - var(--focus) * var(--ratio) * 100cqw,
     0px);
 }
 .shot figcaption {
