@@ -185,8 +185,21 @@ and the headings are set in Bodoni Moda.
 The photos go in `assets/photos/`. The cover photo is in `.cover-photo`; if
 it's swapped and her face moves, nudge `object-position` on `.cover-photo img`.
 Her looks are `look-1.jpg` to `look-6.jpg` and the first date is
-`shoot-1.jpg` to `shoot-4.jpg`; on those pages each `.shot` can set which part
-of its photo stays in view with `--pos`.
+`shoot-1.jpg` to `shoot-4.jpg`. The photos on those pages are placed from
+measurements of each photo, given as fractions of its height or width, so
+they sit the same way on any screen:
+
+- Her looks (`.shot.posed`) set `--head` and `--feet`, where the top of her
+  head and her feet are, and `--x`, her middle; she's zoomed so her head and
+  feet land on the same lines in every frame.
+- The first date (`.shot.focused`) sets `--focus`, one point to hold in
+  place, and `--at`, how far down the frame it sits. That's the top of their
+  heads on page 06, the tops of their heads on a shared line in the two shots
+  from behind on page 07 (`--zoom` lets Ali's photo come up to meet it), and
+  the middle of her and the book in the last.
+
+Both need `--ratio`, the photo's height over its width. The pages were tuned
+on an iPhone 17 (402×874).
 
 ## Adding a photo or a video to a letter
 

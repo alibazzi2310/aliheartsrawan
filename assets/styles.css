@@ -2118,6 +2118,8 @@ body.booked { overflow: hidden; }
   row-gap: 0;
 }
 .shot.wide { grid-column: 1 / -1; }
+/* two side by side over one that's given more of the page */
+.shoot.big-foot { grid-template-rows: minmax(8rem, 2fr) auto minmax(13rem, 4fr) auto; }
 /* two looks side by side, under a page's heading */
 .shoot.pair { grid-template-rows: minmax(12rem, 1fr) auto; }
 .shot-photo {
@@ -2132,7 +2134,7 @@ body.booked { overflow: hidden; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: var(--pos, 50% 50%);
+  object-position: 50% 50%;
 }
 /* A posed look is zoomed and placed so she stands the same height in every
    frame, with the top of her head on a line 5% down the frame and her feet
@@ -2155,16 +2157,20 @@ body.booked { overflow: hidden; }
 /* A focused shot keeps one point of its photo at the same place in the
    frame, whatever shape the frame takes on a given screen. --focus is how
    far down the photo that point is and --at is how far down the frame it
-   should sit (both 0 to 1; --at is halfway unless set). --ratio is the
-   photo's height over its width. The photo fills the frame's width, so it's
-   that tall, and it's slid up until the point lands, but never so far that
-   the frame shows past its edge. */
+   should sit (both 0 to 1; --at is halfway unless set). --x is how far
+   across the photo to centre on, and --ratio is the photo's height over
+   its width. The photo is as big as it needs to be to fill the frame, or
+   --zoom times the frame's height if that's bigger, and it's slid until
+   the point lands, but never so far that the frame shows past its edge. */
 .shot.focused .shot-photo { container-type: size; }
 .shot.focused .shot-photo img {
-  object-position: 50% clamp(
-    min(0px, 100cqh - var(--ratio) * 100cqw),
-    var(--at, .5) * 100cqh - var(--focus) * var(--ratio) * 100cqw,
-    0px);
+  --h: max(var(--ratio) * 100cqw, var(--zoom, 1) * 100cqh);
+  inset: auto;
+  max-width: none;
+  width: calc(var(--h) / var(--ratio));
+  height: var(--h);
+  top: clamp(100cqh - var(--h), var(--at, .5) * 100cqh - var(--focus) * var(--h), 0px);
+  left: clamp(100cqw - var(--h) / var(--ratio), 50cqw - var(--x, .5) * var(--h) / var(--ratio), 0px);
 }
 .shot figcaption {
   flex: none;

@@ -231,11 +231,13 @@
     </section>
 
     <!-- 📷 PAGES 06–07 — THE SHOOT: their first date, written up like a
-         fashion editorial. On the first page, --focus is the top of their
-         heads (how far down the photo it is), --at is where it sits in the
-         frame, a tenth of the way down, and --ratio is the photo's height
-         over its width. On the second, --pos sets which part of each photo
-         stays in view. -->
+         fashion editorial. Each photo keeps one point in place in its frame:
+         --focus is how far down the photo it is, --at is how far down the
+         frame it sits, --x is how far across to centre, and --ratio is the
+         photo's height over its width. On the first page that point is the
+         top of their heads; on the second, the tops of their heads share a
+         line in the two shots from behind, and the book photo centres on
+         her and the book. -->
     <section class="sheet" aria-label="Page 6, The Shoot">
       <div class="face page">
         <p class="folio"><span>Rawan</span><span>The Shoot</span><span>06</span></p>
@@ -267,8 +269,8 @@
     <section class="sheet" aria-label="Page 7, The Shoot continued">
       <div class="face page">
         <p class="folio"><span>Rawan</span><span>The Shoot</span><span>07</span></p>
-        <div class="shoot">
-          <figure class="shot" style="--pos: 50% 40%;">
+        <div class="shoot big-foot">
+          <figure class="shot focused" style="--focus: .18; --at: .15; --x: .55; --ratio: 1.777;">
             <div class="shot-photo">
               <img src="../assets/photos/shoot-2.jpg" width="1000" height="1777"
                    alt="Rawan from behind in a camel trench and chocolate hijab, browsing a shelf of art books.">
@@ -280,7 +282,7 @@
             </figcaption>
           </figure>
 
-          <figure class="shot" style="--pos: 50% 60%;">
+          <figure class="shot focused" style="--focus: .42; --at: .15; --x: .6; --zoom: 1.5; --ratio: 1.777;">
             <div class="shot-photo">
               <img src="../assets/photos/shoot-3.jpg" width="1000" height="1777"
                    alt="Ali in a brown wool jacket, leafing through an interiors book in front of design shelves.">
@@ -292,7 +294,7 @@
             </figcaption>
           </figure>
 
-          <figure class="shot wide" style="--pos: 50% 50%;">
+          <figure class="shot wide focused" style="--focus: .55; --ratio: 1.777;">
             <div class="shot-photo">
               <img src="../assets/photos/shoot-4.jpg" width="1000" height="1777"
                    alt="Rawan peeking over the top of an open copy of The Story of Hermès, its black and white spread covering her face below the eyes.">
@@ -300,7 +302,7 @@
             <figcaption>
               <span class="shot-no">04</span>
               <span class="shot-line">Sizing up the competition</span>
-              <span class="shot-credit">Her: trench with gingham cuffs, gold rings &middot; Reading: The Story of Herm&egrave;s</span>
+              <span class="shot-credit">Reading: The Story of Herm&egrave;s</span>
             </figcaption>
           </figure>
         </div>
