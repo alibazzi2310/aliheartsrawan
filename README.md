@@ -154,7 +154,7 @@ and it shares the twinkling stars of Letter No. IV.
 
 `letters/no-6.html` is a fashion glossy called RAWAN, Issue No. 1: a cover, a
 contents page, a letter from the editor, a lookbook, a pull quote, a front-row
-review and a woven label with her name on it. `body.mag` redefines the shared
+review and a woven label for Fardos Designs, her fashion brand. `body.mag` redefines the shared
 colour tokens the same way `body.night` does, and the headings are set in
 Bodoni Moda.
 
