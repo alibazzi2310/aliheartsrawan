@@ -30,9 +30,13 @@ letters/no-4.html        Letter No. IV — "Our Dreams": a night sky of
                          constellations that unlock a poem
 letters/no-5.html        Letter No. V — "قَمَرِي" (my moon): three months, in
                          Lebanese Arabic, read aloud by Ali
+letters/no-6.html        Letter No. VI — "Cover Story": RAWAN, Issue No. 1,
+                         a fashion magazine with her on the cover
 assets/puzzle.js         the puzzle game, loaded only by Letter No. III
 assets/sky.js            the constellations, loaded only by Letter No. IV
 assets/sea.js            the voice player, loaded only by Letter No. V
+assets/mag.js            the lookbook and its embargo, loaded only by
+                         Letter No. VI
 assets/audio/            recordings for letters that are read aloud
 assets/gate.js          the password screen, loaded first by every page
 assets/styles.css        all styling, shared by every page
@@ -145,6 +149,25 @@ the same with `.card-title-ar` and `.card-gloss`.
 
 `body.sea` redefines the shared colour tokens the same way `body.night` does,
 and it shares the twinkling stars of Letter No. IV.
+
+## The magazine letter
+
+`letters/no-6.html` is a fashion glossy called RAWAN, Issue No. 1: a cover, a
+contents page, a letter from the editor, a lookbook, a pull quote, a front-row
+review and a woven label with her name on it. `body.mag` redefines the shared
+colour tokens the same way `body.night` does, and the headings are set in
+Bodoni Moda.
+
+The photos go in `assets/photos/`. The cover photo replaces the note inside
+`.cover-photo`, and each look's photo goes inside its `.look-photo`; in both
+cases, remove the `is-placeholder` class once the photo is in. Portrait photos
+work best: the cover fills the phone screen, and the looks are cut to 3:4.
+The cover shades its top and bottom so the white type reads over any photo.
+
+The lookbook swipes sideways, and `assets/mag.js` keeps the "01 / 04" count
+in step. The last look carries `data-embargo="2026-12-13"`: until that day it
+shows an "Embargoed" stamp and how many days are left, and after it, a note
+that the photo is on its way, for when the Toulbeh photo goes in.
 
 ## Adding a photo or a video to a letter
 

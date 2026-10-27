@@ -1569,6 +1569,539 @@ body.listening.following .sea-line:not(.now) { opacity: .5; }
   .sea-line, .sea-line .ar { transition: none; }
 }
 
+/* ═══════════════════════════════════════════
+   THE MAGAZINE  (letters/no-6.html)
+   RAWAN, Issue No. 1: ivory paper, black ink
+   and a plum accent, set in Bodoni like a
+   fashion glossy. Like the night letters,
+   body.mag redefines the shared tokens so the
+   letter card and the closing follow along.
+   ═══════════════════════════════════════════ */
+
+body.mag {
+  --paper: #fffdf9;
+  --ink: #2a1f2b;
+  --deep-purple: #2a1f2b;
+  --soft-purple: #a0497a;
+  --muted: #9a8a94;
+  --rose: #d98bb0;
+  --edge: rgba(42, 31, 43, .14);
+  --plum: #a0497a;
+  --cover: #2a1f2b;
+  background: linear-gradient(170deg, #f8f1ec 0%, #fbeef2 50%, #f5ede7 100%);
+  background-attachment: fixed;
+}
+body.mag .letter {
+  border-radius: 4px;
+  border-color: var(--edge);
+  box-shadow: 0 24px 60px rgba(42, 31, 43, .12), 0 3px 10px rgba(42, 31, 43, .05);
+}
+body.mag .letter::before { border-radius: 2px; border: 1px solid var(--edge); }
+body.mag .closing .adore {
+  background: linear-gradient(120deg, var(--ink), var(--plum) 55%, #d476ab);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+body.mag .back-link { border-bottom-color: var(--edge); }
+body.mag .back-link:hover { color: var(--plum); }
+
+/* the small capitals over every heading */
+.mag .kicker {
+  display: block;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--plum);
+}
+.mag-title {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 400;
+  font-size: clamp(2.1rem, 8vw, 3rem);
+  line-height: 1.05;
+  margin: .5rem 0 1.6rem;
+}
+
+/* ── the cover ── */
+.cover {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.3rem 1.25rem 1.6rem;
+  color: #fff;
+  overflow: hidden;
+}
+/* shade the top and bottom so the type reads over any photo */
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(26, 16, 26, .38) 0%, rgba(26, 16, 26, 0) 26%,
+    rgba(26, 16, 26, 0) 50%, rgba(26, 16, 26, .7) 100%);
+}
+.cover-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: grid;
+  place-items: center;
+}
+.cover-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover-photo.is-placeholder {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 52%, rgba(255, 220, 235, .28), transparent 70%),
+    linear-gradient(165deg, #3b2337 0%, #7d4266 48%, #d39ab4 100%);
+}
+.cover-photo .media-note {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .72rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .6);
+  border: 1px dashed rgba(255, 255, 255, .45);
+  padding: .9rem 1.2rem;
+}
+.cover-issue {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
+  padding-bottom: .5rem;
+}
+.masthead {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 500;
+  font-size: min(23vw, 9.5rem);
+  line-height: 1;
+  letter-spacing: .02em;
+  text-align: center;
+  margin-top: .2rem;
+  text-shadow: 0 2px 24px rgba(26, 16, 26, .25);
+}
+.cover-lines {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  max-width: 21rem;
+  margin-bottom: 1.6rem;
+}
+.cover-lines li {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+.cover-lines .kicker {
+  font-style: normal;
+  color: #f6c4dc;
+  margin-bottom: .2rem;
+}
+.cover-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.open-issue {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .72rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+}
+.open-issue .arrow {
+  display: inline-block;
+  animation: nudge 2s ease-in-out infinite;
+}
+/* a barcode, like every glossy on the stand */
+.barcode {
+  display: grid;
+  gap: 3px;
+  padding: 6px 7px 4px;
+  background: #fff;
+  color: var(--cover);
+  text-align: center;
+}
+.barcode .bars {
+  width: 64px;
+  height: 26px;
+  background: repeating-linear-gradient(90deg,
+    var(--cover) 0 2px, transparent 2px 3px, var(--cover) 3px 4px,
+    transparent 4px 6px, var(--cover) 6px 9px, transparent 9px 10px);
+}
+.barcode .price {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .5rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+/* on a big screen, the cover is a magazine on the table, not the whole screen */
+@media (min-width: 700px) {
+  .cover {
+    width: 560px;
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+    margin: 3.5rem auto 0;
+    border-radius: 3px;
+    box-shadow: 0 30px 70px rgba(42, 31, 43, .3), 0 4px 12px rgba(42, 31, 43, .12);
+  }
+  .masthead { font-size: 8.4rem; }
+}
+
+/* ── contents ── */
+.contents {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 0;
+}
+.toc {
+  list-style: none;
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--ink);
+}
+.toc a {
+  display: grid;
+  grid-template-columns: 3.4rem 1fr;
+  column-gap: .6rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--edge);
+  color: var(--ink);
+  text-decoration: none;
+}
+.toc-page {
+  grid-row: span 2;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--plum);
+}
+.toc-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.25rem;
+}
+.toc-blurb {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+/* ── magazine copy inside a letter card ── */
+.mag-article { text-align: left; }
+.mag-prose {
+  font-size: clamp(1.12rem, 3.1vw, 1.3rem);
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+.mag-prose em { font-family: 'Bodoni Moda', serif; font-size: .88em; color: var(--plum); }
+.mag-prose.drop::first-letter {
+  float: left;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 3.9em;
+  line-height: .82;
+  padding: .06em .1em 0 0;
+  color: var(--plum);
+}
+.editor-sign {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.6rem;
+  color: var(--ink);
+  margin-top: 1.6rem;
+}
+.editor-sign span {
+  display: block;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .66rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── the lookbook: swipe through the looks ── */
+.lookbook-wrap {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 0 3rem;
+}
+.mag-head {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.look-count {
+  display: flex;
+  align-items: baseline;
+  gap: .3rem;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1rem;
+  margin-top: -.8rem;
+}
+.look-count .now { color: var(--plum); }
+.look-count .swipe {
+  margin-left: auto;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .66rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lookbook {
+  position: relative;
+  display: flex;
+  gap: 1.1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* line the first look up with the heading above it */
+  padding: 1.2rem max(1.5rem, calc((100vw - 640px) / 2 + 1.5rem)) 1.5rem;
+  scroll-padding: 0 max(1.5rem, calc((100vw - 640px) / 2 + 1.5rem));
+  scrollbar-width: none;
+}
+.lookbook::-webkit-scrollbar { display: none; }
+.look {
+  flex: 0 0 min(76vw, 300px);
+  scroll-snap-align: start;
+}
+.look-photo {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 16px 36px rgba(42, 31, 43, .16);
+}
+.look-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.look-photo.is-placeholder {
+  background: linear-gradient(160deg, #f3e4ea, #e9dcef);
+  outline: 1px dashed var(--rose);
+  outline-offset: -10px;
+}
+.look-photo .media-note {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.look figcaption {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: .8rem;
+  margin-top: 1rem;
+}
+.look-no {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 2.6rem;
+  line-height: .9;
+  color: var(--plum);
+}
+.look-name {
+  align-self: end;
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+.credits {
+  grid-column: 1 / -1;
+  margin-top: .8rem;
+  border-top: 1px solid var(--ink);
+}
+.credits div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--edge);
+}
+.credits dt {
+  flex: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: .2rem;
+}
+.credits dd {
+  font-style: italic;
+  font-size: 1.02rem;
+  text-align: right;
+}
+
+/* the look under embargo until the Toulbeh */
+.look-embargo .look-photo {
+  gap: 1rem;
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, .03) 0 10px, transparent 10px 20px),
+    linear-gradient(160deg, #2a1f2b, #4a2c42);
+  color: #f6dbe8;
+  text-align: center;
+}
+.stamp {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #f6c4dc;
+  border: 2px solid currentColor;
+  padding: .3rem .8rem;
+  transform: rotate(-8deg);
+}
+.embargo-note {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .68rem;
+  line-height: 2;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+.embargo-days {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── the pull quote ── */
+.pull-quote {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 1rem auto 0;
+  padding: 2rem 1.5rem 0;
+  text-align: center;
+}
+.pull-quote p {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: clamp(1.8rem, 7.4vw, 2.7rem);
+  line-height: 1.2;
+}
+.pull-quote p::before {
+  content: '\201C';
+  display: block;
+  font-size: 2.6em;
+  line-height: .6;
+  margin-bottom: .1em;
+  color: var(--plum);
+}
+.pull-quote cite {
+  display: block;
+  margin-top: 1.2rem;
+  font-family: 'Quicksand', sans-serif;
+  font-style: normal;
+  font-size: .66rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pull-quote cite span { display: block; margin-top: .3rem; }
+
+/* ── front row ── */
+.stars {
+  font-size: 1.3rem;
+  letter-spacing: .3em;
+  color: var(--plum);
+  margin: -.6rem 0 1.4rem;
+}
+/* a front-row seat card, torn along the dotted line */
+.ticket {
+  display: flex;
+  margin-top: 2rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid var(--ink);
+}
+.ticket span {
+  flex: 1;
+  padding: .7rem .2rem;
+  text-align: center;
+}
+.ticket span + span { border-left: 1px dashed var(--ink); }
+.ticket span:nth-child(2) { background: var(--ink); color: var(--paper); }
+
+/* ── her name on the label ── */
+.label-wrap {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 1.5rem 2rem;
+  text-align: center;
+}
+.woven-label {
+  position: relative;
+  max-width: 290px;
+  margin: 1.4rem auto 0;
+  padding: 1.6rem 1.2rem 1.4rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 3px),
+    #2a1f2b;
+  color: #f3e3d6;
+  outline: 1px dashed rgba(243, 227, 214, .45);
+  outline-offset: -7px;
+  box-shadow: 0 16px 34px rgba(42, 31, 43, .25);
+}
+.label-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 2.1rem;
+  letter-spacing: .34em;
+  margin-right: -.34em;
+}
+.label-house {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: #f6c4dc;
+  margin-top: .3rem;
+}
+.label-care {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .6rem;
+  line-height: 2;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  padding-top: .9rem;
+  border-top: 1px solid rgba(243, 227, 214, .25);
+}
+.label-note {
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin-top: 1.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .open-issue .arrow { animation: none; }
+}
+
 /* ── the password gate (assets/gate.js) ──
    Drawn over every page until the password has been given once on this
    device. It sets its own colours, so it looks the same on the dark letters. */
